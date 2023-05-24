@@ -4,4 +4,5 @@ export interface Realstate {
   price: number;
   city: string;
   area: string;
+  applicationUserId:string;
 }

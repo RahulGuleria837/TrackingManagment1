@@ -13,6 +13,7 @@ import { RealstateComponent } from './realstate/realstate/realstate.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { appReducer } from './shared/store/app.reducer';
 
 
 @NgModule({
@@ -33,9 +34,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     FormsModule,
     StoreModule.forRoot({},{}),
     EffectsModule.forRoot([]),
+    StoreModule.forRoot({ appstate: appReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
-
-
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,18 +1,110 @@
+<div class="container mt-3">
+    
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+      Create new user
+    </button>
+  </div>
 
-<div class="container mt-2">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col" *ngFor="let book of books$ | async">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ book.propertyName }}</h5>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">{{ book.city }}</li>
-            <li class="list-group-item">${{ book.area }}</li>
-            <li class="list-group-item">${{ book.price }}</li>
-          </ul>
+<table class="table table-bordered table-striped table-active">
+    <thead>
+     <tr>
+ <td>id</td>
+ <td>productName</td>
+ <td>cost</td>
+ <td>brand</td>
+ <td>action</td>
+ 
+     </tr>
+    </thead>
+ 
+    <tbody>
+     <tr *ngFor="let book of books$ | async ">
+         <td>{{book.propertyName}}</td>
+         <td>{{book.city}}</td>
+         <td>{{book.area}}</td>
+         <td>{{book.price}}</td>
+      
+          <td> <button [routerLink]="['/edit', book.id ]" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+             <i class="fa fa-edit"></i> 
+           </button>
+           <button    class="btn btn-danger p-1 m-1" >
+               <i class="fa fa-trash"></i>
+           </button>
+    
+     </tr>
+ 
+    </tbody>
+ 
+ </table>
+
+
+
+ 
+  <!-- Save -->
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">NEW USER</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+        
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="txtname" class="col-sm-4">propertyName</label>
+
+                    <div class="col-8">
+                        <input type="text"  [(ngModel)]="stateForm.propertyName"    name="companyName"  placeholder="Enter Name" id="txtname" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="txtname" [(ngModel)]="stateForm.price" class="col-sm-4">Price</label>
+                    <div class="col-8">
+                        <input type="number"  name="cost"  placeholder="Enter Name" id="txtname" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="txtname" class="col-sm-4">City</label>
+                    <div class="col-8">
+                        <input type="text"  [(ngModel)]="stateForm.city"  name="city"  placeholder="Enter Name" id="txtname" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="txtname" class="col-sm-4">Area</label>
+                    <div class="col-8">
+                        <input type="text"  [(ngModel)]="stateForm.area"  name="Area"  placeholder="Enter Name" id="txtname" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button (click)="save()"   class="btn btn-success" data-bs-dismiss="modal">Save</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+  
       </div>
     </div>
   </div>
   
+
+   <!-- Edit -->
+<!-- The Modal -->
+

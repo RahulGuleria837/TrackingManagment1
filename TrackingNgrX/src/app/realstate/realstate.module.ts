@@ -6,13 +6,18 @@ import { EffectsModule } from '@ngrx/effects';
 import { RealstateEffect } from './store/realstate.effect';
 import { StoreModule } from '@ngrx/store';
 import { RealstateReducer } from './store/realstate.reducer';
+import { EditComponent } from './edit/edit.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  
+    EditComponent
+  ],
   imports: [
     CommonModule,
-    
+    FormsModule,
     RealstateRoutingModule,
     StoreModule.forFeature('mystate',RealstateReducer),
     EffectsModule.forFeature([RealstateEffect])
