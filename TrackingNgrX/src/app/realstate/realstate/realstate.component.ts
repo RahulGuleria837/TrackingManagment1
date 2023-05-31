@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { selectRealstate, selectRealstatebyID } from '../store/realstate.selector';
-import { invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI } from '../store/realstate.action';
+import { invokeDeleteStateAPI, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI } from '../store/realstate.action';
 import { Realstate } from '../store/realstate';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { setApiStatus } from 'src/app/shared/store/app.action';
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { Appstate } from 'src/app/shared/store/appstate';
 
+declare var window: any;
 @Component({
   selector: 'app-realstate',
   templateUrl: './realstate.component.html',
@@ -23,37 +24,30 @@ export class RealstateComponent implements OnInit {
     price: 0,
     city: '',
     area: '',
-    applicationUserId:"30ac1918-16b5-4231-ad14-bbc1878631b8"
+    applicationUserId: "30ac1918-16b5-4231-ad14-bbc1878631b8"
   }
+
+  deleteModal: any;
+  idToDelete: number = 0;
+
   constructor(private store: Store, private router: Router, private appstore: Store<Appstate>, private route: ActivatedRoute) { }
 
 
 
-  books$ = this.store.pipe(select(selectRealstate));
+  state$ = this.store.pipe(select(selectRealstate));
 
   ngOnInit(): void {
     this.store.dispatch(invokeRealStateAPI());
-
-    let fetchData$ = this.route.paramMap.pipe(
-      switchMap((params) => {
-        var id = Number(params.get('id'));
-        console.log("id=",id)
-        return this.store.pipe(select(selectRealstatebyID(id)));
-      })
+    //delete
+    this.deleteModal = new window.bootstrap.Modal(
+      document.getElementById('deleteModal')
     );
-    fetchData$.subscribe((data) => {
-      if (data) {
-        this.stateForm = { ...data };
-      }
-      else{
-        this.router.navigate(['/']);
-      }
-    });
   }
 
-
   save() {
-    this.store.dispatch(invokeSaveRealStateAPI({ newStates: this.stateForm }));
+    debugger
+    console.log(this.stateForm.id);
+    this.store.dispatch(invokeSaveRealStateAPI({ newStates: this.stateForm }));    
     let apiStatus$ = this.appstore.pipe(select(selectAppState));
     apiStatus$.subscribe((apState) => {
       if (apState.apiStatus == 'success') {
@@ -65,7 +59,28 @@ export class RealstateComponent implements OnInit {
     });
   }
 
+  openDeleteModal(id:number){
+    this.idToDelete = id;
+    this.deleteModal.show();
+  }
 
-  
+  delete(){
+    debugger
+    this.store.dispatch(
+      invokeDeleteStateAPI({
+        id: this.idToDelete,
+      })
+    );
+    let apiStatus$ = this.appstore.pipe(select(selectAppState));
+    apiStatus$.subscribe((apState)=>{
+      if(apState.apiStatus == 'success'){
+        this.deleteModal.hide();
+        
+      }
+    })
+  }
+
+
+
 
 }

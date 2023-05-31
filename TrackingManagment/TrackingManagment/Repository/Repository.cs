@@ -25,12 +25,10 @@ namespace TrackingManagment.Repository
         //To delete entity with the help of id
         public async Task<bool> Delete(int id)
         {
-            var removeUser =  _context.realStates.FindAsync(id);
+            var removeUser = await  _context.realStates.FindAsync(id);
 
-            if(removeUser == null) return false ;
-            var data = _context.Remove(removeUser);
-            if(data == null) return false ;
-
+            _context.realStates.Remove(removeUser);
+            _context.SaveChanges();
             return true;
         }
 

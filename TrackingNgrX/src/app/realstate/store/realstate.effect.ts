@@ -2,17 +2,18 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { RealstateService } from "../realstate.service";
 import { Store, select } from "@ngrx/store";
-import { EMPTY, map, mergeMap, switchMap, withLatestFrom } from "rxjs";
+import { EMPTY, exhaustMap, map, mergeMap, switchMap, withLatestFrom } from "rxjs";
 import { selectRealstate } from "./realstate.selector";
-import { RealStateFetchAPISuccess, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI, saveNewRealStateAPISucess, updateRealStateAPISucess } from "./realstate.action";
+import {  RealStateFetchAPISuccess, deleteStateAPISuccess, invokeDeleteStateAPI, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI, saveNewRealStateAPISucess, updateRealStateAPISucess } from "./realstate.action";
 import { setApiStatus } from "src/app/shared/store/app.action";
 import { Appstate } from "src/app/shared/store/appstate";
+import { Router } from "@angular/router";
 
 @Injectable()
 
 export class RealstateEffect {
 
-    constructor (private actions$:Actions, private stateService: RealstateService,private store:Store,private appStore:Store<Appstate> ){
+    constructor (private actions$:Actions, private stateService: RealstateService,private store:Store,private appStore:Store<Appstate>,private route:Router ){
 
     }
 
@@ -21,6 +22,7 @@ export class RealstateEffect {
       ofType(invokeRealStateAPI),
       withLatestFrom(this.store.pipe(select(selectRealstate))),
       mergeMap(([, realformStore]) => {
+        debugger
         if (realformStore.length > 0) {
           return EMPTY;
         }
@@ -32,6 +34,7 @@ export class RealstateEffect {
   );
 
   saveNewBook$ = createEffect(() => {
+    debugger
     return this.actions$.pipe(
       ofType(invokeSaveRealStateAPI),
       switchMap((action) => {
@@ -45,7 +48,10 @@ export class RealstateEffect {
                 apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
               })
             );
-            return  saveNewRealStateAPISucess({ newStates: data });
+          
+            return  saveNewRealStateAPISucess({ newStates:  action.newStates });
+         
+
           })
         );
       })
@@ -67,11 +73,61 @@ export class RealstateEffect {
                 apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
               })
             );
-            return updateRealStateAPISucess({updateState : data });
+            this.route.navigate(['/realstate']);
+            return updateRealStateAPISucess({updateState : action.updateState });
+          
+
           })
         );
       })
     );
   });
+
+
+  deleteStateAPI$ = createEffect(()=>{
+    return this.actions$.pipe(
+      ofType(invokeDeleteStateAPI),
+      switchMap((action)=>{
+        this.appStore.dispatch(
+          setApiStatus({apiStatus:{apiResponseMessage: '', apiStatus:''}})
+        );
+        
+        return this.stateService.delete(action.id).pipe(
+          map(()=>{
+            this.appStore.dispatch(
+              setApiStatus({
+                apiStatus:{apiResponseMessage:'', apiStatus:'success'},
+              })
+            );
+            return deleteStateAPISuccess({id: action.id});
+          })
+        );
+
+      })
+    );
+  });
+
+  // LoginRealStateAPI$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(NewLoginAPISucess),
+  //     exhaustMap((action) => {
+  //       return this.stateService.login(action.newLogin).pipe(
+  //         map((data) => {
+  //           this.appStore.dispatch(
+  //             setApiStatus({
+  //               apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+  //             })
+  //           );
+  //           this.route.navigate(['/realstate']);
+  //           return updateRealStateAPISucess({updateState : action.newLogin });
+          
+
+
+  //         })
+  //       );
+  //     })
+  //   );
+  // });
+  
 
 }

@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     RealstateRoutingModule,
     StoreModule.forFeature('mystate',RealstateReducer),
-    EffectsModule.forFeature([RealstateEffect])
+    EffectsModule.forFeature(RealstateEffect)
   ]
 })
 export class RealstateModule { }

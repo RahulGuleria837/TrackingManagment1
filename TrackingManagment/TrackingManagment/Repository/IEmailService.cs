@@ -4,6 +4,6 @@ namespace TrackingManagment.Repository
 {
     public interface IEmailService
     {
-        void SendEmail(Email email);
+        void SendEmail(EmailModel email);
     }
 }

@@ -4,10 +4,10 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a routerLink="realstate" class="nav-link text-light" ><h6>RealState</h6> <span class="sr-only">(current)</span></a>
+        <a [routerLink]="['/']" class="nav-link text-light" ><h6>RealState</h6> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link text-light" ><h6>Invite</h6> <span class="sr-only">(current)</span></a>
+        <a routerLink="invite" class="nav-link text-light" ><h6>Invite</h6> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link text-light" ><h6>Invited person</h6> <span class="sr-only">(current)</span></a>
@@ -19,7 +19,7 @@
     </form> -->
     <div class="offset-9">
       <!-- <button  class="btn btn-success m-2">logout</button> -->
-      <a routerLink="register" class="btn btn-success me-3">register</a>
+      <a *ngIf="Logout == true || logoutUser"  routerLink="register" class="btn btn-success me-3">register</a>
         <button *ngIf="Logout == false && !logoutUser" (click)="logOutClick()" class="btn btn-success m-2">logout</button>
     <a routerLink="login" *ngIf="Logout == true || logoutUser" class="btn btn-success me-3">Login</a>
   

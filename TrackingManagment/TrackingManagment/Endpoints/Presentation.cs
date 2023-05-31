@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Win32;
@@ -13,18 +14,19 @@ namespace TrackingManagment.Endpoints
 {
     public static class Presentation
     {
+       
         public static void UserEndPoints(this IEndpointRouteBuilder apps)
         {
             // get endpoint
-            apps.MapGet("/getById", async (IRepository _repository, int id) =>
+            apps.MapGet("/getById", async  (IRepository _repository, int id) =>
             {
                 var getid = await _repository.Get(id);
                 if (getid == null) { return Results.NotFound(); }
                 return Results.Ok(getid);
 
             });
-
-            apps.MapGet("/GetAll", async (IRepository _repository) =>
+            
+            apps.MapGet("/GetAll",[Authorize] async (IRepository _repository) =>
             {
                 var getAll = await _repository.GetAll();
                 return getAll;
@@ -48,7 +50,7 @@ namespace TrackingManagment.Endpoints
             });
 
             //To Delete RealState
-            apps.MapDelete("/delete", async (IRepository _repository, int id) =>
+            apps.MapDelete("/delete/{id}", async (IRepository _repository, int id) =>
 
             {
                 var updateUser = await _repository.Delete(id);
@@ -91,6 +93,8 @@ namespace TrackingManagment.Endpoints
 
             app.MapPost("/email",Email);
 
+            app.MapGet("/invite/{userName}", Invite);
+
             return app;
         }
         public async static Task<IResult> Register(IUserService _service, [FromBody] RegisterView register)
@@ -108,11 +112,17 @@ namespace TrackingManagment.Endpoints
 
         }
 
-        public  static IResult Email( IEmailService _service,[FromBody] Email email)
+        public  static IResult Email( IEmailService _service, EmailModel email)
         {
+         
             _service.SendEmail(email);
-            return Results.Ok(email);
+            return Results.Ok();
 
+        }
+        public static IResult Invite(string userName,IInviteUserRepository invite)
+        {
+            var data = invite.GetUsers(userName);
+            return Results.Ok(data);
         }
     }
 

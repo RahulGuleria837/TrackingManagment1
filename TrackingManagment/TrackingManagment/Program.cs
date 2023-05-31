@@ -31,7 +31,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IUserService, UserServices>();
-builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IInviteUserRepository,InviteUseRepository >();
+builder.Services.AddAuthorization(); // Add this line to include the required authorization services
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -52,7 +54,7 @@ builder.Services.Configure<JwtSettings>(appSettingSection);
 var appsetting = appSettingSection.Get<JwtSettings>();
 var key = Encoding.ASCII.GetBytes(appsetting.SecretKey);
 
-/*builder.Services.AddAuthentication(x =>
+builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -69,7 +71,7 @@ var key = Encoding.ASCII.GetBytes(appsetting.SecretKey);
         ValidateAudience = false
     };
 });
-*/
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -98,7 +100,8 @@ app.UseHttpsRedirection();
 //cors
 app.UseCors("thisismypolicy");
 
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
 

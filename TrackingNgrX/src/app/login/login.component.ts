@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from '../login.service';
 import { compileNgModule } from '@angular/compiler';
+import { Appstate } from '../shared/store/appstate';
+import { Store, select } from '@ngrx/store';
+import { invokeSaveNewLoginAPI } from '../realstate/store/login.action';
+import { selectAppState } from '../shared/store/app.selector';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +17,16 @@ import { compileNgModule } from '@angular/compiler';
 })
 export class LoginComponent {
 
+  
+
   currentUser:any;
   loginForm!:FormGroup;
+  store: any;
+  apiStatus$: Observable<any>;
+ 
   
-    constructor(private builder: FormBuilder, private loginservice: LoginService,private route:Router) { }
-  
+    constructor(private builder: FormBuilder,private loginservice:LoginService, private route:Router ,private appstore: Store<Appstate>,private stores: Store) { this.apiStatus$=new Observable}
+  //private store: Store, private router: Router, private appstore: Store<Appstate>, private route: ActivatedRoute)
     ngOnInit(): void {
       this.loginForm = this.builder.group({
         UserName: ['',Validators.required],
@@ -26,24 +35,42 @@ export class LoginComponent {
     }
 
   
+    // loginClick() {
+    //   debugger
+    //   console.log(this.loginForm.value)
+    //   this.loginservice.login(this.loginForm.value).subscribe({
+    //       next:(rr)=>{
+    //         this.currentUser=rr.UserName;
+    //         localStorage["currentUser"]=JSON.stringify(rr);
+    //        this.route.navigate(["/"]);
+    //        this.route.events.subscribe(event => {
+    //        this.loginForm.reset();
+    //        this.route.navigateByUrl('/')
+    //       });
+          
+    //         // console.log(rr)
+    //       },
+    //       error:(err)=>{
+    //          console.log(err);
+    //       }
+          
+    //   })
+    // }
+
+  
     loginClick() {
       debugger
-      console.log(this.loginForm.value)
-      this.loginservice.login(this.loginForm.value).subscribe({
-          next:(rr)=>{
-            this.currentUser=rr.UserName;
-            localStorage["currentUser"]=JSON.stringify(rr);
-           this.route.navigate(['realstate']);
-           this.route.events.subscribe(event => {
-           this.loginForm.reset();
-          });
-          
-            // console.log(rr)
-          },
-          error:(err)=>{
-             console.log(err);
-          }
-          
-      })
+      //console.log(this.loginForm.value)
+      this.stores.dispatch(invokeSaveNewLoginAPI({newLogin:this.loginForm.value}));
+      this.apiStatus$ = this.appstore.pipe(select(selectAppState));
+      this.apiStatus$.subscribe((apState) => {
+        if (apState.apiStatus == 'success') {
+          alert(apState.apiResponseMessage)
+        this.route.navigate(['/realstate']);
+
+        } 
+        this.route.navigate(['/realstate']);
+       
+      });
     }
-}
+  }

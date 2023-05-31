@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { switchMap } from 'rxjs';
 import { selectRealstatebyID } from '../store/realstate.selector';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Appstate } from 'src/app/shared/store/appstate';
 import { Realstate } from '../store/realstate';
@@ -16,7 +16,7 @@ import { selectAppState } from 'src/app/shared/store/app.selector';
 })
 export class EditComponent implements OnInit { 
   stateForm: Realstate = {
-    id: 0,
+    id: 11,
     propertyName: '',
     price: 0,
     city: '',
@@ -42,7 +42,7 @@ export class EditComponent implements OnInit {
       }
     });
   }
-  ssssss() {
+  update() {
     debugger
     this.store.dispatch(
       invokeupdateRealStateAPI({ updateState: { ...this.stateForm } })
@@ -51,9 +51,9 @@ export class EditComponent implements OnInit {
     apiStatus$.subscribe((apState) => {
       if (apState.apiStatus == 'success') {
         this.appstore.dispatch(
-          setApiStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
-
-        );
+          setApiStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' }
+         })
+          );
       }
     })
   }

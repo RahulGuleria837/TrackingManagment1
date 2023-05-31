@@ -12,15 +12,15 @@ const routes: Routes = [
 {  path:'',
   component:RealstateComponent
 },
+{  path:'realstate',
+  component:RealstateComponent
+},
 {path: 'edit/:id',component:EditComponent}
 ];
 
 @NgModule({
   imports: [
-  RouterModule.forChild(routes),
-  EffectsModule.forFeature([RealstateEffect]),
-  StoreModule.forFeature('mystate',RealstateReducer)
-  
+  RouterModule.forChild(routes)  
   ],
   exports: [RouterModule],
 })

@@ -4,7 +4,7 @@ import { Realstate } from "./realstate";
 
 //CREATE
 
-export const selectRealstate = createFeatureSelector<any[]>('mystate');
+export const selectRealstate = createFeatureSelector<Realstate[]>('mystate');
 
 
 //Edit
@@ -17,3 +17,4 @@ if(realstatebyId.length == 0){
 }
 return realstatebyId[0];
 });
+

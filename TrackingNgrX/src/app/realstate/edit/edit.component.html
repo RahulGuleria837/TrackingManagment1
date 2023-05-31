@@ -4,10 +4,10 @@
         <div class="offset-md-2 col-lg-5 col-md-7 offet-lg-4 offset-md-3">
           <div class="panel border bg-white">
             <div class="panel-heading">
-              <h3 class="pt-3 font-weight-bold text-info">Edit Books</h3>
+              <h3 class="pt-3 font-weight-bold text-info">Edit RealState</h3>
             </div>
             <div class="panel-body p-3">
-              <form #form="ngForm" (ngSubmit)="ssssss()">
+              <form #form="ngForm" (ngSubmit)="update() ">
                 <div class="form-group pt-3">
                   <div class="input-field">
                     <span class="fa fa-user p-2">Name</span>
@@ -65,8 +65,9 @@
                   <button
                     type="button"
                     style="margin-left: 5px"
-                    [routerLink]="['/home']"
+                    [routerLink]="['/realstate']"
                     class="btn btn-danger"
+                    [routerLink]="['/']"
                   >
                     Cancel
                   </button>

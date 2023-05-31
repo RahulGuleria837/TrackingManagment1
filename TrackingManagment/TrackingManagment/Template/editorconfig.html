@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>INVITATION</title>
+</head>
+<body>
+
+    <div class="container">
+    <h1>Invitation</h1>
+    <div class="invitation-card">
+        <img src="path/to/image.jpg" alt="Invitation Image">
+       <!-- <h2>[receiverUserName]</h2>-->
+        <p> To work with me </p>
+    </div>
+    <div class="details">
+        <p id="date"></p>
+        <p id="time"></p>`
+     <!--  <p>Sended by: [senderUserName]</p>-->
+    </div>
+    <a class="btn" href="path/to/rsvp.html">Click here</a>
+    </div>
+    <script>
+        console.log("hello");
+        let dateRefrence = document.getElementById("date");
+        dateRefrence.innerHTML = Date.now.toString();
+        document.getElementById("time") = Date.time.toString();
+
+    </script>
+</body>
+</html>

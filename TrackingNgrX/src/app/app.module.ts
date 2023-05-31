@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { RouterModule } from '@angular/router';
-import{HttpClientModule,} from '@angular/common/http';
+import{HTTP_INTERCEPTORS, HttpClientModule,} from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './realstate/home/home.component';
 import { RealstateComponent } from './realstate/realstate/realstate.component';
@@ -14,6 +14,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { appReducer } from './shared/store/app.reducer';
+import { InviteComponent } from './invite/invite.component';
+import { LoginEffect } from './realstate/store/login.effect';
+import { loginReducer } from './realstate/store/login.reducer';
+import { NewrequestInterceptor } from 'src/INTERCEPTOR/newrequest.interceptor';
 
 
 @NgModule({
@@ -22,7 +26,8 @@ import { appReducer } from './shared/store/app.reducer';
     RegisterComponent,
     LoginComponent,
     RealstateComponent,
-    HomeComponent
+    HomeComponent,
+    InviteComponent
   
   ],
   imports: [
@@ -32,12 +37,20 @@ import { appReducer } from './shared/store/app.reducer';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.forRoot({},{}),
-    EffectsModule.forRoot([]),
-    StoreModule.forRoot({ appstate: appReducer }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot({}),
+    EffectsModule.forFeature(LoginEffect),
+    StoreModule.forFeature('mylogins', loginReducer),
+    StoreModule.forRoot({ appState: appReducer }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NewrequestInterceptor ,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

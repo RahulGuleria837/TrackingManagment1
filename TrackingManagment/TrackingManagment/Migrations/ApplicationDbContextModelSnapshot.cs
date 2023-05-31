@@ -228,13 +228,25 @@ namespace TrackingManagment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
+                    b.Property<int>("Action")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvitationReceiverUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("InvitationSenderUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("InvitationReceiverUserId");
+
+                    b.HasIndex("InvitationSenderUserId");
 
                     b.ToTable("invitedUsers");
                 });
@@ -353,13 +365,21 @@ namespace TrackingManagment.Migrations
 
             modelBuilder.Entity("TrackingManagment.Models.InvitedUser", b =>
                 {
-                    b.HasOne("TrackingManagment.Identity.ApplicationUser", "ApplicationUser")
+                    b.HasOne("TrackingManagment.Identity.ApplicationUser", "ApplicationUserReceiver")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
+                        .HasForeignKey("InvitationReceiverUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.HasOne("TrackingManagment.Identity.ApplicationUser", "ApplicationUserSender")
+                        .WithMany()
+                        .HasForeignKey("InvitationSenderUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUserReceiver");
+
+                    b.Navigation("ApplicationUserSender");
                 });
 
             modelBuilder.Entity("TrackingManagment.Models.RealState", b =>
