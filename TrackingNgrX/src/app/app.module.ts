@@ -18,6 +18,9 @@ import { InviteComponent } from './invite/invite.component';
 import { LoginEffect } from './realstate/store/login.effect';
 import { loginReducer } from './realstate/store/login.reducer';
 import { NewrequestInterceptor } from 'src/INTERCEPTOR/newrequest.interceptor';
+import { RealstateEffect } from './realstate/store/realstate.effect';
+import { RealstateReducer } from './realstate/store/realstate.reducer';
+import { InvitedpersonComponent } from './invitedperson/invitedperson.component';
 
 
 @NgModule({
@@ -27,7 +30,8 @@ import { NewrequestInterceptor } from 'src/INTERCEPTOR/newrequest.interceptor';
     LoginComponent,
     RealstateComponent,
     HomeComponent,
-    InviteComponent
+    InviteComponent,
+    InvitedpersonComponent
   
   ],
   imports: [
@@ -39,6 +43,8 @@ import { NewrequestInterceptor } from 'src/INTERCEPTOR/newrequest.interceptor';
     FormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot({}),
+    EffectsModule.forFeature(RealstateEffect),
+    StoreModule.forFeature('mystate', RealstateReducer),
     EffectsModule.forFeature(LoginEffect),
     StoreModule.forFeature('mylogins', loginReducer),
     StoreModule.forRoot({ appState: appReducer }),

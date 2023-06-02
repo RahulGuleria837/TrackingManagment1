@@ -94,7 +94,7 @@ export class InviteComponent implements OnInit {
    sendInvitation() {
     debugger
     console.log("check",this.displayName.userId)
-    let invitationUser = this.displayName;
+    let invitationUser = this.displayName.userId;
     this.inviteService.SendEmail(invitationUser).subscribe({
       next: (data) => {
         console.log(data);

@@ -19,6 +19,8 @@ export class InviteService {
   }
   SendEmail(email:any){
     debugger
-      return this.http.post<any>(`http://localhost:5046/minimalAPI/email`,email)
+    console.log(email)
+    alert(email);
+      return this.http.post<any>(`http://localhost:5046/minimalAPI/CreateInvitation?senderId=${email}`,"")
   }
 }

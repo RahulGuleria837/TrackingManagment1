@@ -21,11 +21,14 @@ export class LoginComponent {
 
   currentUser:any;
   loginForm!:FormGroup;
-  store: any;
   apiStatus$: Observable<any>;
  
   
-    constructor(private builder: FormBuilder,private loginservice:LoginService, private route:Router ,private appstore: Store<Appstate>,private stores: Store) { this.apiStatus$=new Observable}
+    constructor(private builder: FormBuilder,
+      private loginservice:LoginService,
+       private route:Router ,
+       private appstore: Store<Appstate>,
+       private stores: Store) { this.apiStatus$=new Observable}
   //private store: Store, private router: Router, private appstore: Store<Appstate>, private route: ActivatedRoute)
     ngOnInit(): void {
       this.loginForm = this.builder.group({
@@ -60,17 +63,26 @@ export class LoginComponent {
   
     loginClick() {
       debugger
-      //console.log(this.loginForm.value)
-      this.stores.dispatch(invokeSaveNewLoginAPI({newLogin:this.loginForm.value}));
-      this.apiStatus$ = this.appstore.pipe(select(selectAppState));
-      this.apiStatus$.subscribe((apState) => {
-        if (apState.apiStatus == 'success') {
-          alert(apState.apiResponseMessage)
-        this.route.navigate(['/realstate']);
+      // //console.log(this.loginForm.value)
+      // this.stores.dispatch(invokeSaveNewLoginAPI({newLogin:this.loginForm.value}));
+      // this.apiStatus$ = this.appstore.pipe(select(selectAppState));
+      // this.apiStatus$.subscribe((apState) => {
+      //   if (apState.apiStatus == 'success') {
+      //     //alert(apState.apiResponseMessage)
+      //   this.route.navigate(['realstate']);
 
-        } 
-        this.route.navigate(['/realstate']);
-       
-      });
+      //   } 
+      //   this.route.navigate(['realstate'])
+        
+      
+      // });
+      this.stores.dispatch(invokeSaveNewLoginAPI({newLogin:this.loginForm.value}));
+    this.apiStatus$ = this.appstore.pipe(select(selectAppState));
+    this.apiStatus$.subscribe((apState) => {
+      if (apState.apiStatus == 'success') {
+        alert(apState.apiResponseMessage)
+      }
+      this.route.navigate(['']);
+    });
     }
   }

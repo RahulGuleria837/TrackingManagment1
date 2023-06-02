@@ -21,7 +21,7 @@ export class RealstateEffect {
     this.actions$.pipe(
       ofType(invokeRealStateAPI),
       withLatestFrom(this.store.pipe(select(selectRealstate))),
-      mergeMap(([, realformStore]) => {
+      switchMap(([, realformStore]) => {
         debugger
         if (realformStore.length > 0) {
           return EMPTY;
@@ -32,9 +32,22 @@ export class RealstateEffect {
       })
     )
   );
+//   loadAllstate$ = createEffect(() =>
+//   this.actions$.pipe(
+//     ofType(invokeRealStateAPI),
+//     withLatestFrom(this.store.pipe(select(selectRealstate))),
+//     switchMap(([, realformStore]) => {
+//       if (realformStore.length > 0) {
+//         return EMPTY;
+//       }
+//       return this.stateService
+//         .get()
+//         .pipe(map((data) => RealStateFetchAPISuccess({ allStates: data })));
+//     })
+//   )
+// );
 
-  saveNewBook$ = createEffect(() => {
-    debugger
+  saveNewState$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(invokeSaveRealStateAPI),
       switchMap((action) => {

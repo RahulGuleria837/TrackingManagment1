@@ -30,7 +30,7 @@ export class RealstateComponent implements OnInit {
   deleteModal: any;
   idToDelete: number = 0;
 
-  constructor(private store: Store, private router: Router, private appstore: Store<Appstate>, private route: ActivatedRoute) { }
+  constructor(private store: Store, private appstore: Store<Appstate>, private route: ActivatedRoute) { }
 
 
 

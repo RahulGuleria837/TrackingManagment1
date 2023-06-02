@@ -19,8 +19,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     RealstateRoutingModule,
-    StoreModule.forFeature('mystate',RealstateReducer),
-    EffectsModule.forFeature(RealstateEffect)
+    // StoreModule.forFeature('mystate',RealstateReducer),
+    // EffectsModule.forFeature(RealstateEffect)
   ]
 })
 export class RealstateModule { }

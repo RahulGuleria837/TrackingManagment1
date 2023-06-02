@@ -33,20 +33,7 @@ builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IUserService, UserServices>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IInviteUserRepository,InviteUseRepository >();
-builder.Services.AddAuthorization(); // Add this line to include the required authorization services
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
-    });
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
+builder.Services.AddAuthorization(); // Add this line to include the required authorization service
 //Jwt services
 
 var appSettingSection = builder.Configuration.GetSection("JwtSettings");
@@ -76,7 +63,34 @@ builder.Services.AddAuthentication(x =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type=ReferenceType.SecurityScheme,
+                            Id="Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+});
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -94,7 +108,11 @@ app.UserEndPoints();
 
 app.MapGroup("/minimalAPI")
    .LoginRegisterAPI()
-    .WithTags("LOGIN Service");
+    .WithTags("Services");
+
+app.MapGroup("/minimalAPI")
+    .INVITATION_API()
+    .WithTags("Invitation").RequireAuthorization();
 
 app.UseHttpsRedirection();
 //cors

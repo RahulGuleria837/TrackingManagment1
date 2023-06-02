@@ -16,7 +16,7 @@ import { selectAppState } from 'src/app/shared/store/app.selector';
 })
 export class EditComponent implements OnInit { 
   stateForm: Realstate = {
-    id: 11,
+    id: 0,
     propertyName: '',
     price: 0,
     city: '',

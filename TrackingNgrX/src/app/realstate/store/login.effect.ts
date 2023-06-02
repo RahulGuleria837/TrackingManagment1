@@ -12,7 +12,10 @@ import { Router } from "@angular/router";
 export class LoginEffect {
     
 
-    constructor(private actions$:Actions,private _login:LoginService,private appStore:Store<Appstate> ,private route:Router ){}
+    constructor( private actions$: Actions,
+      private _login:LoginService,
+      private store: Store,
+      private appStore: Store<Appstate>){}
 
 
 
@@ -20,36 +23,67 @@ export class LoginEffect {
 
 
 
-login$ = createEffect(() => {
-    debugger
-    return this.actions$.pipe(
-      ofType(invokeSaveNewLoginAPI),
-      switchMap((action) => {
-        return this._login.login(action.newLogin).pipe(
-          map((data) => {
-            debugger
-            localStorage.setItem("currentUser",JSON.stringify(data))
-            this.appStore.dispatch(
-              setApiStatus({
-                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
-              })
-            );
+// login$ = createEffect(() => {
+//     return this.actions$.pipe(
+//       ofType(invokeSaveNewLoginAPI),
+//       switchMap((action) => {
+//         return this._login.login(action.newLogin).pipe(
+//           map((data) => {
+//             localStorage.setItem("currentUser",JSON.stringify(data))
+//             this.appStore.dispatch(
+//               setApiStatus({
+//                 apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+//               })
+//             );
           
-            return saveNewLoginAPISucess({ newLogin: action.newLogin,logout:false });
-          }),
-          catchError((error: any) =>{ 
-            this.appStore.dispatch(
-              setApiStatus({
-                apiStatus: {
-                  apiResponseMessage: error.error.data,
-                  apiStatus: 'failure',
-                },
-              }));
-              return EMPTY;
-          //  return of(LoginActions.LoginFailure(error))
-          })
-        );
-      })
-    );
-  });
+//             return saveNewLoginAPISucess({ newLogin: action.newLogin,logout:false });
+//           }),
+//           catchError((error: any) =>{ 
+//             this.appStore.dispatch(
+//               setApiStatus({
+//                 apiStatus: {
+//                   apiResponseMessage: error.error.data,
+//                   apiStatus: 'failure',
+//                 },
+//               }));
+//               return EMPTY;
+//           //  return of(LoginActions.LoginFailure(error))
+//           })
+//         );
+//       })
+//     );
+//   });
+login$ = createEffect(() => {
+  return this.actions$.pipe(
+    ofType(invokeSaveNewLoginAPI),
+    switchMap((action) => {
+      this.appStore.dispatch(
+        setApiStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+      );
+      return this._login.login(action.newLogin).pipe(
+        map((data) => {
+          localStorage.setItem("currentUser",JSON.stringify(data))
+          this.appStore.dispatch(
+            setApiStatus({
+              apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+            })
+          );
+          return saveNewLoginAPISucess({ newLogin: action.newLogin,logout:false });
+        }),
+        catchError((error: any) =>{ 
+          this.appStore.dispatch(
+            setApiStatus({
+              apiStatus: {
+                apiResponseMessage: error.error.data,
+                apiStatus: 'failure',
+              },
+            }));
+            return EMPTY;
+        //  return of(LoginActions.LoginFailure(error))
+        })
+      );
+    })
+  );
+});
+
 }

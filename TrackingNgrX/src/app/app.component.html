@@ -10,19 +10,31 @@
         <a routerLink="invite" class="nav-link text-light" ><h6>Invite</h6> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link text-light" ><h6>Invited person</h6> <span class="sr-only">(current)</span></a>
+        <a class="nav-link text-light"  [routerLink]="['/invitedperson','','','']" ><h6>Invited person</h6> <span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form> -->
-    <div class="offset-9">
-      <!-- <button  class="btn btn-success m-2">logout</button> -->
-      <a *ngIf="Logout == true || logoutUser"  routerLink="register" class="btn btn-success me-3">register</a>
-        <button *ngIf="Logout == false && !logoutUser" (click)="logOutClick()" class="btn btn-success m-2">logout</button>
-    <a routerLink="login" *ngIf="Logout == true || logoutUser" class="btn btn-success me-3">Login</a>
-  
+    <div class="col-2">
+      <div class="row" *ngIf="login$ | async as login">
+       <div class="row" *ngIf="login.data==null || login.logout ">
+         <div class="col-2 offset-4">
+             <button style="margin-left: 1300px;" routerLink="login" class="btn btn-success">Login</button>
+         </div>
+         <div class="col-3 offset-1">
+          <button style="margin-left: 1300px;" routerLink="register" class="btn btn-success">Register</button>
+         </div>
+       </div>
+       <div *ngIf="!login.logout && login.data!=null">
+         <div class="col-2 offset-8">
+             <button  style="margin-left: 1300px;" class="btn btn-success" (click)="LogoutClick()" >Logout</button>
+         </div>
+       </div>
+       <div>
+       </div>
+       </div>
     </div>
   </div>
 </nav>
