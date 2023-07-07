@@ -10,7 +10,8 @@ import { Observable, Subject, debounceTime, map, switchMap } from 'rxjs';
   styleUrls: ['./invite.component.scss']
 })
 export class InviteComponent implements OnInit {
-  invites: any;
+
+  invites:any[]=[];
   displayNameIsNot: boolean = true;
   displayName = {
     userName:"",
@@ -19,9 +20,13 @@ export class InviteComponent implements OnInit {
   displayInvitation: any;
   results$: Observable<any>;
   subject = new Subject();
-  constructor(private inviteService: InviteService) { this.results$ = new Observable(); }
-
+  constructor(private inviteService: InviteService) { this.results$ = new Observable(); 
+  }
+   
   ngOnInit(): void {
+
+    this.allInvitedUsers();
+
     this.results$ = this.subject.pipe(
       debounceTime(2000),
       switchMap((searchText) =>
@@ -91,9 +96,10 @@ export class InviteComponent implements OnInit {
     }
   }
 
+  //SENDING INVITATION TO THE 
    sendInvitation() {
     debugger
-    console.log("check",this.displayName.userId)
+    console.log("check",this.displayName.userId,this.displayName)
     let invitationUser = this.displayName.userId;
     this.inviteService.SendEmail(invitationUser).subscribe({
       next: (data) => {
@@ -104,6 +110,28 @@ export class InviteComponent implements OnInit {
       },
     });
    }
+
+   //SHOWING ALL DATA OF INVITED USERS
+   allInvitedUsers(){
+    this.inviteService.showInvitedUsers().subscribe({
+      next:(data)=>{
+        this.invites=data;
+        console.log(data)
+      }
+    })
+   }
+
+   //CHANGING ACTION WHILE CLICKING ON THE ACTION 
+   actionsChange(receiverid:any,action:any){
+    debugger
+    this.inviteService.changeAction(receiverid,action).subscribe({
+      next:(data)=>{
+      console.log(data)
+      }
+    })
+   }
+
+
 }
 
 

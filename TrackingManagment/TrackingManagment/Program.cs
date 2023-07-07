@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -17,6 +18,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("conStr"));
 });
+
+
+
 //cors
 builder.Services.AddCors(options =>
 {
@@ -114,12 +118,15 @@ app.MapGroup("/minimalAPI")
     .INVITATION_API()
     .WithTags("Invitation").RequireAuthorization();
 
+app.MapGroup("/minimalAPI")
+    .TrackingUserAPI();
+
 app.UseHttpsRedirection();
 //cors
 app.UseCors("thisismypolicy");
 
-app.UseAuthentication();
+
+app.Run();app.UseAuthentication();
 app.UseAuthorization();
 
-app.Run();
 

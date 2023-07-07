@@ -23,4 +23,13 @@ export class InviteService {
     alert(email);
       return this.http.post<any>(`http://localhost:5046/minimalAPI/CreateInvitation?senderId=${email}`,"")
   }
+
+  showInvitedUsers(){
+    return this.http.get<any>('http://localhost:5046/minimalAPI/Getall')
+  }
+
+  changeAction(receiverid:any,action:any){
+    debugger
+    return this.http.post<any>(`http://localhost:5046/minimalAPI/update?reciverId=${receiverid}&action=${action}`,"")
+  }
 }

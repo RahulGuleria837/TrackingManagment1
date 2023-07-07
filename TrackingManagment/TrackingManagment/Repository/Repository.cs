@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrackingManagment.Identity;
+using TrackingManagment.Migrations;
 using TrackingManagment.Models;
 
 namespace TrackingManagment.Repository
@@ -43,6 +44,13 @@ namespace TrackingManagment.Repository
         {
             var getAll = await _context.realStates.ToListAsync();
             return getAll;
+           
+        }
+
+        public ICollection<RealState> GetSpecificUserData(string UserID)
+        {
+            var data = _context.realStates.Where(u => u.ApplicationUserId == UserID).ToList();
+            return data;
         }
 
         //To update any entity of realState
@@ -52,5 +60,7 @@ namespace TrackingManagment.Repository
          await   _context.SaveChangesAsync();
            
         }
+
+        
     }
 }

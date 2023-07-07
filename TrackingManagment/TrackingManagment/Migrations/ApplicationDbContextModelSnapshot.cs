@@ -235,6 +235,14 @@ namespace TrackingManagment.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("InvitationReciverName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvitationSenderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("InvitationSenderUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");

@@ -1,4 +1,5 @@
-﻿using TrackingManagment.Identity;
+﻿using System.ComponentModel;
+using TrackingManagment.Identity;
 using TrackingManagment.Migrations;
 using TrackingManagment.Models;
 using TrackingManagment.ViewModel;
@@ -15,11 +16,15 @@ namespace TrackingManagment.Repository
 
         public string? GetUserIdFromToken(string userToken);
 
+        public bool ChangeInvitationStatus(string receiverId, string senderId, int action);
 
-        /* public bool TakeActionOnInvitedPerson(string receiverId, string senderId, int action);
-          public ICollection<InvitedUser> InvitedPersonList(string senderId);
-          public ICollection<InvitedUser> InvitationComesFromUser(string userId);
-          public bool ChangeInvitationStatus(string receiverId, string senderId, int status);
-          ;*/
+        ICollection<InvitedUser> GetAll();
+
+        public bool UpdateInvitationAction(string receiverID,string senderId,int status);
+
+        public ICollection<InvitedUser> InvitationComesFromUser(string userId);
+
+
+      
     }
 }

@@ -11,6 +11,7 @@ import { Logout, saveNewLoginAPISucess } from './realstate/store/login.action';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  title: any;
 
   constructor(private store: Store, private router: Router) { }
   login$ = this.store.pipe(select(selectLogins));

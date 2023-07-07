@@ -1,18 +1,18 @@
 <div class="container mt-3">
     
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-      Create new user
+      Add new Property 
     </button>
   </div>
 
 <table class="table table-bordered table-striped table-active">
     <thead>
      <tr>
- <td><h6>PropertyName</h6></td>
- <td><h6>City</h6></td>
- <td><h6>Area</h6></td>
- <td><h6>Price</h6></td>
- <td><h6>action</h6></td>
+ <td> <h5>PropertyName</h5> </td>
+ <td><h5>City</h5></td>
+ <td><h5>Area</h5></td>
+ <td><h5>Price</h5></td>
+ <td><h5>action</h5></td>
  
      </tr>
     </thead>
@@ -38,8 +38,14 @@
  </table>
 
 
+<!-- <div *ngFor="let abc of datass.user | keyvalue">
+  <div *ngIf="abc.key == 'name' || abc.key == 'email'">
+    {{ abc.key }}: {{ abc.value }}
+  </div>
+</div>
+ -->
 
- 
+
   <!-- Save -->
 <!-- The Modal -->
 <div class="modal" id="myModal">

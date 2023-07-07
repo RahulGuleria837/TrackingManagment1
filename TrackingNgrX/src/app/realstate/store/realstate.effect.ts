@@ -4,16 +4,17 @@ import { RealstateService } from "../realstate.service";
 import { Store, select } from "@ngrx/store";
 import { EMPTY, exhaustMap, map, mergeMap, switchMap, withLatestFrom } from "rxjs";
 import { selectRealstate } from "./realstate.selector";
-import {  RealStateFetchAPISuccess, deleteStateAPISuccess, invokeDeleteStateAPI, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI, saveNewRealStateAPISucess, updateRealStateAPISucess } from "./realstate.action";
+import {  RealStateFetchAPISuccess, deleteStateAPISuccess,  getInvitationrealstate,  invokeDeleteStateAPI, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI, saveNewRealStateAPISucess, updateRealStateAPISucess } from "./realstate.action";
 import { setApiStatus } from "src/app/shared/store/app.action";
 import { Appstate } from "src/app/shared/store/appstate";
 import { Router } from "@angular/router";
+import { InvitedpersonService } from "src/app/invitedperson.service";
 
 @Injectable()
 
 export class RealstateEffect {
 
-    constructor (private actions$:Actions, private stateService: RealstateService,private store:Store,private appStore:Store<Appstate>,private route:Router ){
+    constructor (private actions$:Actions, private stateService: RealstateService,private store:Store,private appStore:Store<Appstate>,private route:Router,private invitationService:InvitedpersonService ){
 
     }
 
@@ -32,20 +33,7 @@ export class RealstateEffect {
       })
     )
   );
-//   loadAllstate$ = createEffect(() =>
-//   this.actions$.pipe(
-//     ofType(invokeRealStateAPI),
-//     withLatestFrom(this.store.pipe(select(selectRealstate))),
-//     switchMap(([, realformStore]) => {
-//       if (realformStore.length > 0) {
-//         return EMPTY;
-//       }
-//       return this.stateService
-//         .get()
-//         .pipe(map((data) => RealStateFetchAPISuccess({ allStates: data })));
-//     })
-//   )
-// );
+
 
   saveNewState$ = createEffect(() => {
     return this.actions$.pipe(
@@ -120,27 +108,16 @@ export class RealstateEffect {
     );
   });
 
-  // LoginRealStateAPI$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(NewLoginAPISucess),
-  //     exhaustMap((action) => {
-  //       return this.stateService.login(action.newLogin).pipe(
-  //         map((data) => {
-  //           this.appStore.dispatch(
-  //             setApiStatus({
-  //               apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
-  //             })
-  //           );
-  //           this.route.navigate(['/realstate']);
-  //           return updateRealStateAPISucess({updateState : action.newLogin });
-          
 
-
-  //         })
-  //       );
-  //     })
-  //   );
-  // });
-  
+  //
+  getInvitaionerState$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(getInvitationrealstate),
+    switchMap((actions)=>{
+      return this.invitationService.specificUserData(actions.invitationerstateId).pipe(
+        map((datas:any) => RealStateFetchAPISuccess({ allStates: datas })));
+    })
+  )
+);
 
 }

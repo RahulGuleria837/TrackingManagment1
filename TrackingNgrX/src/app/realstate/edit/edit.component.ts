@@ -21,7 +21,7 @@ export class EditComponent implements OnInit {
     price: 0,
     city: '',
     area: '',
-    applicationUserId:"30ac1918-16b5-4231-ad14-bbc1878631b8"
+    applicationUserId:""
   }
   constructor(private store: Store, private router: Router, private appstore: Store<Appstate>, private route: ActivatedRoute){}
 

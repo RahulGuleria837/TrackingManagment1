@@ -24,7 +24,6 @@
           <div class="row mt-2">
             <div class="col-12">
               <input type="text"   name="displayName"   [(ngModel)]="displayName.userName"  placeholder="Search" (keyup)="search($event)" class="form-control"/>
-                      
                   </div>
           </div>
         </div>
@@ -53,28 +52,47 @@
 </div>
 
 <!-- Display Invitation -->
+
+
 <div class="w-50 m-auto mt-5">
+  <div>
+    <h5 style="color:sienna ; margin-left: 400px;">Added users</h5>
+  </div>
   <table class="table table-striped table-hover text-center">
     <thead class="bg-secondary text-white">
+     
       <tr>
-        <td>Name</td>
+        <td>InvitationSender</td>
+        <td>InvitationReceiver</td>
         <td>Status</td>
-        <td>Action</td>
+        <td>current Action</td>
+        <td>Controls</td>
       </tr>
     </thead>
     <tbody>
-      <!-- <tr *ngFor="let invite of invites">
-        <td>{{ invite.userName }}</td>
-        <td>{{ invite.userStatus }}</td>
-        <td>{{ invite.userActions }}</td> 
-      </tr> -->
-      <tr>
-        <td></td>
-        <td></td>
-      <td><i class='fa fa-circle icon-2x ' style="color: green;">disable</i>&nbsp;
-      <i class="fa fa-circle" >Enable</i>&nbsp;
-      <i class="fa fa-circle" style="color:red"></i>Delete</td>
+
+      <tr *ngFor ="let invite of invites">
+        <td>{{invite.invitationSenderName}}</td>
+        <td> {{invite.invitationReciverName}}</td>
+        <td>
+          <a *ngIf="invite.status == 1" class='fa fa-circle icon-2x ' style="color: rgb(0, 128, 117);" >Approved </a>
+          <a *ngIf="invite.status == 2" class='fa fa-circle icon-2x ' style="color: rgba(255, 0, 0, 0.372);"> Rejected</a>
+          <a *ngIf="invite.status == 3"class='fa fa-circle icon-2x ' style="color: rgba(0, 68, 255, 0.753);"> Pending</a>
+        </td>
+        <td>
+          <p *ngIf="invite.action == 1" class='fa fa-circle icon-2x ' style="color: rgb(0, 255, 179);">Enable</p>
+            <p *ngIf="invite.action == 2" class='fa fa-circle icon-2x ' style="color: rgba(255, 68, 0, 0.753);">Disable</p>
+            <p *ngIf="invite.action == 3" class='fa fa-circle icon-2x ' style="color: rgba(106, 0, 255, 0.753);">Delete</p>
+        </td> 
+      <td> <button (click)="actionsChange(invite.invitationReceiverUserId,invite.action=1)" class="btn-outline-success" >Enable</button> &nbsp;
+      <button (click)="actionsChange(invite.invitationReceiverUserId,invite.action=2)" class=" btn btn-outline-warning">Disable</button>&nbsp;
+       <button (click)="actionsChange(invite.invitationReceiverUserId,invite.action=3)" class=" btn btn-outline-danger">Delete</button>
+      </td>
     </tr>
     </tbody>
   </table>
 </div>
+
+
+
+ 

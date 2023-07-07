@@ -9,6 +9,10 @@ namespace TrackingManagment.Models
         [Key]
         public int Id { get; set; }
         //public string Email { get; set; }
+        public string InvitationSenderName { get; set; }
+
+        public string InvitationReciverName { get; set; }
+
         public string InvitationSenderUserId { get; set; } = string.Empty;
         [ForeignKey("InvitationSenderUserId")]
         public ApplicationUser? ApplicationUserSender { get; set; }

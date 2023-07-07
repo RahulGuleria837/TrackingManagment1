@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { selectRealstate, selectRealstatebyID } from '../store/realstate.selector';
-import { invokeDeleteStateAPI, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI } from '../store/realstate.action';
+import { RealStateFetchAPISuccess,  getInvitationrealstate,  invokeDeleteStateAPI, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI } from '../store/realstate.action';
 import { Realstate } from '../store/realstate';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { setApiStatus } from 'src/app/shared/store/app.action';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { Appstate } from 'src/app/shared/store/appstate';
+import { InvitedpersonService } from 'src/app/invitedperson.service';
 
 declare var window: any;
 @Component({
@@ -16,25 +17,48 @@ declare var window: any;
   styleUrls: ['./realstate.component.scss']
 })
 
-export class RealstateComponent implements OnInit {
+export class RealstateComponent implements OnInit,OnChanges {
+  @Input() invitaionerPersonId:string="";
 
+  xyz:any
   stateForm: Realstate = {
     id: 0,
     propertyName: '',
     price: 0,
     city: '',
     area: '',
-    applicationUserId: "30ac1918-16b5-4231-ad14-bbc1878631b8"
+    applicationUserId: ""
   }
+  
+
+
 
   deleteModal: any;
   idToDelete: number = 0;
 
-  constructor(private store: Store, private appstore: Store<Appstate>, private route: ActivatedRoute) { }
+  constructor(private store: Store, private appstore: Store<Appstate>, private route: ActivatedRoute,private invitedperson:InvitedpersonService) { 
+  
+  }
 
-
+  isObjectType(value: any): value is object {
+    return typeof value === 'object' && value !== null;
+  }
 
   state$ = this.store.pipe(select(selectRealstate));
+
+ngOnChanges(changes: SimpleChanges): void {
+  if (this.invitaionerPersonId != '') {
+    this.store.dispatch(
+      getInvitationrealstate({
+       invitationerstateId: this.invitaionerPersonId,
+      })
+    );
+  } else {
+    this.store.dispatch(RealStateFetchAPISuccess({allStates:[]}));
+  }
+}
+
+
 
   ngOnInit(): void {
     this.store.dispatch(invokeRealStateAPI());
@@ -42,8 +66,14 @@ export class RealstateComponent implements OnInit {
     this.deleteModal = new window.bootstrap.Modal(
       document.getElementById('deleteModal')
     );
+
+
   }
 
+
+ 
+ 
+  
   save() {
     debugger
     console.log(this.stateForm.id);

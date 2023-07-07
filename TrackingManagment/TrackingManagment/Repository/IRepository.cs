@@ -9,5 +9,6 @@ namespace TrackingManagment.Repository
         Task Update(RealState state);
         Task Add(RealState state);
         Task<bool> Delete(int id);
+       ICollection<RealState> GetSpecificUserData(String UserID);
     }
 }

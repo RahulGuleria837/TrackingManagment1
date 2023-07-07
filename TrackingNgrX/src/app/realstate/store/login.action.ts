@@ -14,3 +14,10 @@ export const Logout = createAction(
   '[Logout] Logout success',
   props<{ data: { result: any; logout: boolean } }>()
 );
+
+export const  NORMAL_REALSTATE = createAction(
+  '[specificUser] specificusers success ',
+  props<{ specificuserID:any }>()
+)
+
+

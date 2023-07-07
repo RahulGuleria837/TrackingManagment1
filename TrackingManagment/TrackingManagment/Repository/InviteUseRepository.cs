@@ -25,10 +25,41 @@ namespace TrackingManagment.Repository
             _userManager = userManager;
             _emailService = emailService;
         }
-
+        
         public bool ChangeInvitationStatus(string receiverId, string senderId, int status)
         {
-            throw new NotImplementedException();
+            var sender = _userManager.FindByIdAsync(senderId).Result;
+            var reciver = _userManager.FindByIdAsync(receiverId).Result;
+            if (reciver == null || sender == null) return false;
+            var findInvitation = _context.invitedUsers.FirstOrDefault(i => i.InvitationSenderUserId == senderId && i.InvitationReceiverUserId == receiverId);
+            if (findInvitation == null) return false;
+            findInvitation.Status = (Status)status;
+            if (findInvitation.Status == Status.Approved)
+
+                findInvitation.Action = Models.Action.Enable;
+
+            _context.Update(findInvitation);
+            return _context.SaveChanges() == 1 ? true : false;
+        }
+
+        public bool UpdateInvitationAction(string receiverID, string senderId, int action)
+        {
+            var sender = _userManager.FindByIdAsync(senderId).Result;
+            var receiver = _userManager.FindByIdAsync(receiverID).Result;
+            if(receiver == null || sender == null) return false;
+            var findInvitation = _context.invitedUsers.FirstOrDefault(m => m.InvitationSenderUserId == senderId && m.InvitationReceiverUserId == receiverID);
+            if (findInvitation == null) { return false; }
+                findInvitation.Action= (Models.Action)action;
+
+            if (findInvitation.Action == Models.Action.Deleted) 
+            {
+                _context.Remove(findInvitation);
+                return _context.SaveChanges() == 1 ? true:false;
+            }
+
+            _context.Update(findInvitation);
+
+            return _context.SaveChanges()==1 ? true : false;
         }
 
         public  bool CreateInvitation(string senderId, string reciverId)
@@ -41,11 +72,13 @@ namespace TrackingManagment.Repository
             
 
 
-            if (senderId == null && reciverId == null) throw new ArgumentNullException();
+            //if (senderId == null && reciverId == null) throw new ArgumentNullException();
             InvitedUser invitedUser = new InvitedUser
             {
                 InvitationSenderUserId = senderId,
                 InvitationReceiverUserId = reciverId,
+               InvitationSenderName=validatasender.UserName,
+               InvitationReciverName=validateReceiver.UserName,
                 Status = Status.Pending,
                 Action = Models.Action.Disable
             };
@@ -66,6 +99,11 @@ namespace TrackingManagment.Repository
             return true;
         }
 
+        public  ICollection<InvitedUser> GetAll()
+        {
+            var getAll =  _context.invitedUsers.ToList();
+            return getAll;
+        }
 
         public string? GetUserIdFromToken(string userToken)
         {
@@ -93,17 +131,24 @@ namespace TrackingManagment.Repository
 
         public ICollection<InvitedUser> InvitationComesFromUser(string userId)
         {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<InvitedUser> InvitedPersonList(string senderId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool TakeActionOnInvitedPerson(string receiverId, string senderId, int action)
-        {
-            throw new NotImplementedException();
+            return _context.Set<InvitedUser>().Include(u => u.ApplicationUserSender)
+            .Where(u => u.InvitationReceiverUserId == userId && u.Status == Status.Approved)
+            .Select(u => new InvitedUser()
+            {   
+                InvitationSenderUserId = u.InvitationSenderUserId,
+                InvitationSenderName = u.ApplicationUserSender.UserName,
+            
+                Action = u.Action,
+                Status = u.Status
+            }
+           )
+            .ToList();
         }
     }
-}
+
+       
+       
+
+       
+    }
+

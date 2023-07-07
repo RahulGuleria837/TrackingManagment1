@@ -12,7 +12,7 @@ export class RealstateService {
   constructor(private http:HttpClient,private loginService:LoginService) { }
 
   get():Observable<any>{
-    return this.http.get<any[]>('http://localhost:5046/GetAll')
+    return this.http.get<any[]>('http://localhost:5046/getspecificdata')
   }
   Create(payload:Realstate)
   {debugger

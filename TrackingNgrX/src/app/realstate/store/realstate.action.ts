@@ -10,7 +10,7 @@ export const invokeRealStateAPI = createAction(
   //To get all States
   export const RealStateFetchAPISuccess = createAction(
     '[RealState API] Fetch API Success',
-    props<{ allStates: Realstate[] }>()
+    props<{ allStates:any[] }>()
   );
 
   //To create all states
@@ -45,6 +45,23 @@ export const invokeRealStateAPI = createAction(
     '[RealState API] delete State api success',
     props<{id:number}>()
   )
+
+  export const normalreaslstate = createAction(
+    '[RealState API] normal state' ,
+    props<{ newState: [] }>()
+  );
+  export const getInvitationrealstate= createAction(
+    '[RealState API] get invitation realstate success',
+    props<{ invitationerstateId: any }>()
+  );
+  export const sendSenderId = createAction(
+    '[RealState API] sendSenderId realState success',
+    props<{ id: string }>()
+  );
+   
+
+
+
 
   //  //LOGIN
   //  export const NewLoginAPI = createAction(

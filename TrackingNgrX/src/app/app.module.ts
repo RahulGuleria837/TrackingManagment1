@@ -21,6 +21,7 @@ import { NewrequestInterceptor } from 'src/INTERCEPTOR/newrequest.interceptor';
 import { RealstateEffect } from './realstate/store/realstate.effect';
 import { RealstateReducer } from './realstate/store/realstate.reducer';
 import { InvitedpersonComponent } from './invitedperson/invitedperson.component';
+import { ValuesPipe } from './values.pipe';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { InvitedpersonComponent } from './invitedperson/invitedperson.component'
     RealstateComponent,
     HomeComponent,
     InviteComponent,
-    InvitedpersonComponent
+    InvitedpersonComponent,
+    ValuesPipe
   
   ],
   imports: [
