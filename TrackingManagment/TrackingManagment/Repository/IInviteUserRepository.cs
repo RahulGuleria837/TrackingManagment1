@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using TrackingManagment.Identity;
-using TrackingManagment.Migrations;
 using TrackingManagment.Models;
 using TrackingManagment.ViewModel;
 

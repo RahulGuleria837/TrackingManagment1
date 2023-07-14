@@ -35,12 +35,12 @@ namespace TrackingManagment.Repository
             if (findInvitation == null) return false;
             findInvitation.Status = (Status)status;
             if (findInvitation.Status == Status.Approved)
-
+           
                 findInvitation.Action = Models.Action.Enable;
 
             _context.Update(findInvitation);
             return _context.SaveChanges() == 1 ? true : false;
-        }
+        } 
 
         public bool UpdateInvitationAction(string receiverID, string senderId, int action)
         {

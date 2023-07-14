@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TrackingManagment.Migrations
 {
     /// <inheritdoc />
-    public partial class initload : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,22 +48,6 @@ namespace TrackingManagment.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "realStates",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PropertyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Area = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_realStates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,13 +162,47 @@ namespace TrackingManagment.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    InvitationSenderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InvitationReciverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InvitationSenderUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    InvitationReceiverUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Action = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_invitedUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_invitedUsers_AspNetUsers_ApplicationUserId",
+                        name: "FK_invitedUsers_AspNetUsers_InvitationReceiverUserId",
+                        column: x => x.InvitationReceiverUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_invitedUsers_AspNetUsers_InvitationSenderUserId",
+                        column: x => x.InvitationSenderUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "realStates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PropertyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Area = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_realStates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_realStates_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -195,11 +213,14 @@ namespace TrackingManagment.Migrations
                 name: "tracingUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ChangeMade = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ChangeTracktime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RealStateId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DataChangeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataChangeUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserActions = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -208,8 +229,12 @@ namespace TrackingManagment.Migrations
                         name: "FK_tracingUsers_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_tracingUsers_AspNetUsers_DataChangeUserId",
+                        column: x => x.DataChangeUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_tracingUsers_realStates_RealStateId",
                         column: x => x.RealStateId,
@@ -258,14 +283,29 @@ namespace TrackingManagment.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_invitedUsers_ApplicationUserId",
+                name: "IX_invitedUsers_InvitationReceiverUserId",
                 table: "invitedUsers",
+                column: "InvitationReceiverUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_invitedUsers_InvitationSenderUserId",
+                table: "invitedUsers",
+                column: "InvitationSenderUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_realStates_ApplicationUserId",
+                table: "realStates",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tracingUsers_ApplicationUserId",
                 table: "tracingUsers",
                 column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tracingUsers_DataChangeUserId",
+                table: "tracingUsers",
+                column: "DataChangeUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tracingUsers_RealStateId",
@@ -301,10 +341,10 @@ namespace TrackingManagment.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "realStates");
 
             migrationBuilder.DropTable(
-                name: "realStates");
+                name: "AspNetUsers");
         }
     }
 }

@@ -12,8 +12,8 @@ using TrackingManagment.Identity;
 namespace TrackingManagment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230519061511_ApplicationUser")]
-    partial class ApplicationUser
+    [Migration("20230713105149_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,13 +231,33 @@ namespace TrackingManagment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
+                    b.Property<int>("Action")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvitationReceiverUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("InvitationReciverName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvitationSenderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvitationSenderUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("InvitationReceiverUserId");
+
+                    b.HasIndex("InvitationSenderUserId");
 
                     b.ToTable("invitedUsers");
                 });
@@ -278,25 +298,37 @@ namespace TrackingManagment.Migrations
 
             modelBuilder.Entity("TrackingManagment.Models.TracingUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("ChangeMade")
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ChangeTracktime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DataChangeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DataChangeUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RealStateId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserActions")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("DataChangeUserId");
 
                     b.HasIndex("RealStateId");
 
@@ -356,13 +388,21 @@ namespace TrackingManagment.Migrations
 
             modelBuilder.Entity("TrackingManagment.Models.InvitedUser", b =>
                 {
-                    b.HasOne("TrackingManagment.Identity.ApplicationUser", "ApplicationUser")
+                    b.HasOne("TrackingManagment.Identity.ApplicationUser", "ApplicationUserReceiver")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
+                        .HasForeignKey("InvitationReceiverUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.HasOne("TrackingManagment.Identity.ApplicationUser", "ApplicationUserSender")
+                        .WithMany()
+                        .HasForeignKey("InvitationSenderUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUserReceiver");
+
+                    b.Navigation("ApplicationUserSender");
                 });
 
             modelBuilder.Entity("TrackingManagment.Models.RealState", b =>
@@ -380,9 +420,11 @@ namespace TrackingManagment.Migrations
                 {
                     b.HasOne("TrackingManagment.Identity.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("TrackingManagment.Identity.ApplicationUser", "DataChangeUser")
+                        .WithMany()
+                        .HasForeignKey("DataChangeUserId");
 
                     b.HasOne("TrackingManagment.Models.RealState", "RealState")
                         .WithMany()
@@ -391,6 +433,8 @@ namespace TrackingManagment.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("DataChangeUser");
 
                     b.Navigation("RealState");
                 });

@@ -18,3 +18,4 @@ if(realstatebyId.length == 0){
 return realstatebyId[0];
 });
 
+export const senderId = createFeatureSelector<any>('senderInvitaionerId');

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { switchMap } from 'rxjs';
 import { selectRealstatebyID } from '../store/realstate.selector';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Appstate } from 'src/app/shared/store/appstate';
 import { Realstate } from '../store/realstate';
-import { invokeupdateRealStateAPI } from '../store/realstate.action';
+import { getInvitationrealstate, invokeupdateRealStateAPI } from '../store/realstate.action';
 import { setApiStatus } from 'src/app/shared/store/app.action';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 
@@ -14,7 +14,7 @@ import { selectAppState } from 'src/app/shared/store/app.selector';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit { 
+export class EditComponent implements OnInit  { 
   stateForm: Realstate = {
     id: 0,
     propertyName: '',
@@ -23,7 +23,24 @@ export class EditComponent implements OnInit {
     area: '',
     applicationUserId:""
   }
+
+ 
   constructor(private store: Store, private router: Router, private appstore: Store<Appstate>, private route: ActivatedRoute){}
+
+
+// ngOnChanges(changes: SimpleChanges): void {
+//   if (this.invitaionerPersonId != "") {
+//     this.store.dispatch(
+//       getInvitationrealstate({
+//        invitationerstateId: this.invitaionerPersonId,
+//       })
+//     );
+//   } 
+  
+// }
+
+
+  
 
   ngOnInit(): void {
     let fetchData$ = this.route.paramMap.pipe(
@@ -42,6 +59,7 @@ export class EditComponent implements OnInit {
       }
     });
   }
+  
   update() {
     debugger
     this.store.dispatch(

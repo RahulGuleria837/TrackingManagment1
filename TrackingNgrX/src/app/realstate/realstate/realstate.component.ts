@@ -1,12 +1,12 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { selectRealstate, selectRealstatebyID } from '../store/realstate.selector';
-import { RealStateFetchAPISuccess,  getInvitationrealstate,  invokeDeleteStateAPI, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI } from '../store/realstate.action';
+import { selectRealstate, selectRealstatebyID, senderId } from '../store/realstate.selector';
+import { RealStateFetchAPISuccess,  getInvitationrealstate,  invokeDeleteStateAPI, invokeRealStateAPI, invokeSaveRealStateAPI, invokeupdateRealStateAPI, sendSenderId } from '../store/realstate.action';
 import { Realstate } from '../store/realstate';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { setApiStatus } from 'src/app/shared/store/app.action';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { Appstate } from 'src/app/shared/store/appstate';
 import { InvitedpersonService } from 'src/app/invitedperson.service';
 
@@ -17,9 +17,9 @@ declare var window: any;
   styleUrls: ['./realstate.component.scss']
 })
 
-export class RealstateComponent implements OnInit,OnChanges {
+export class RealstateComponent implements OnInit,OnChanges,OnDestroy {
   @Input() invitaionerPersonId:string="";
-
+  books$:Observable<any>
   xyz:any
   stateForm: Realstate = {
     id: 0,
@@ -30,34 +30,41 @@ export class RealstateComponent implements OnInit,OnChanges {
     applicationUserId: ""
   }
   
+  
 
 
 
   deleteModal: any;
   idToDelete: number = 0;
 
-  constructor(private store: Store, private appstore: Store<Appstate>, private route: ActivatedRoute,private invitedperson:InvitedpersonService) { 
-  
+  constructor(private store: Store, private appstore: Store<Appstate>,private router:Router,
+     private route: ActivatedRoute,private invitedperson:InvitedpersonService)
+ { 
+  this.books$ = this.store.pipe(select(selectRealstate))
   }
 
   isObjectType(value: any): value is object {
     return typeof value === 'object' && value !== null;
   }
 
-  state$ = this.store.pipe(select(selectRealstate));
+  // state$ = this.store.pipe(select(selectRealstate));
 
 ngOnChanges(changes: SimpleChanges): void {
-  if (this.invitaionerPersonId != '') {
+  if (this.invitaionerPersonId != "") {
     this.store.dispatch(
       getInvitationrealstate({
-       invitationerstateId: this.invitaionerPersonId,
+      ApplicationUserId:this.invitaionerPersonId
       })
     );
-  } else {
-    this.store.dispatch(RealStateFetchAPISuccess({allStates:[]}));
-  }
+  
+  } 
 }
-
+// this.store.dispatch(invokeSaveNewBookAPI({ newBook: this.bookForm }));
+// let apiStatus$ = this.appStore.pipe(select(selectAppState));
+// apiStatus$.subscribe((apState) => {
+//   if (apState.apiStatus == 'success') {
+//     // this.router.navigate(['home']);
+//     this.locationService.back();
 
 
   ngOnInit(): void {
@@ -65,29 +72,41 @@ ngOnChanges(changes: SimpleChanges): void {
     //delete
     this.deleteModal = new window.bootstrap.Modal(
       document.getElementById('deleteModal')
+     
+    
     );
-
-
+  
   }
 
-
+ngOnDestroy(): void {
+    
+    this.store.dispatch(invokeRealStateAPI());
+  }
  
+save(){
+  debugger
+  this.store.dispatch(sendSenderId({ApplicationUserId:this.invitaionerPersonId}))
+}
  
   
-  save() {
-    debugger
-    console.log(this.stateForm.id);
-    this.store.dispatch(invokeSaveRealStateAPI({ newStates: this.stateForm }));    
-    let apiStatus$ = this.appstore.pipe(select(selectAppState));
-    apiStatus$.subscribe((apState) => {
-      if (apState.apiStatus == 'success') {
-        this.appstore.dispatch(
-          setApiStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
-        );
+//   save() {
+//     debugger
+//     this.store.pipe(select(senderId)).subscribe(
+// {
+//   next:(data)=> {this.stateForm.applicationUserId=data}
+// }
+//     )
+//     this.store.dispatch(invokeSaveRealStateAPI({ newStates: this.stateForm }));    
+//     let apiStatus$ = this.appstore.pipe(select(selectAppState));
+//     apiStatus$.subscribe((apState) => {
+//       if (apState.apiStatus == 'success') {
+//         this.appstore.dispatch(
+//           setApiStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+//         );
 
-      }
-    });
-  }
+//       }
+//     });
+//   }
 
   openDeleteModal(id:number){
     this.idToDelete = id;

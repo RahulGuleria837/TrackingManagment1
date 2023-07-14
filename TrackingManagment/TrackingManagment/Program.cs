@@ -9,6 +9,8 @@ using System.Text;
 using TrackingManagment;
 using TrackingManagment.Endpoints;
 using TrackingManagment.Identity;
+using TrackingManagment.Models;
+using TrackingManagment.Models.DTO.DTOMapping;
 using TrackingManagment.Repository;
 using TrackingManagment.Services;
 
@@ -37,6 +39,9 @@ builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IUserService, UserServices>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IInviteUserRepository,InviteUseRepository >();
+builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddScoped<ITrackingRepository,TrackingRepository>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAuthorization(); // Add this line to include the required authorization service
 //Jwt services
 
@@ -118,9 +123,9 @@ app.MapGroup("/minimalAPI")
     .INVITATION_API()
     .WithTags("Invitation").RequireAuthorization();
 
-app.MapGroup("/minimalAPI")
+/*app.MapGroup("/minimalAPI")
     .TrackingUserAPI();
-
+*/
 app.UseHttpsRedirection();
 //cors
 app.UseCors("thisismypolicy");

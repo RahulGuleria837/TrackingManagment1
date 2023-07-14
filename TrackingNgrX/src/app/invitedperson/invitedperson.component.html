@@ -1,17 +1,21 @@
-<h1 class="max-auto" style="margin-left:750px ;" >Welcome</h1>
-<div style="margin-left: 650px;"  >
-    <a *ngIf= "Status ==='1'" class="text text-success"  ><h3> YOU CAN MODIFY THIS DATA</h3> </a>
-    <a *ngIf= "Status ==='2'" class="text text-danger";  ><h1> YOU CAN NOT MODIFY THIS DATA</h1> </a>
+<h1 class="max-auto" style="margin-left:750px ;">Welcome</h1>
+<div style="margin-left: 650px;">
+  <a *ngIf="status ==='1'" class="text text-success">
+    <h3> YOU CAN MODIFY THIS DATA</h3>
+  </a>
+  <a *ngIf="status ==='2'" class="text text-danger" ;>
+    <h1> YOU CAN NOT MODIFY THIS DATA</h1>
+  </a>
 </div>
 
 
 <h3>RealState data</h3>
 
-<button  (click)="toggleTable(invitedPerson)"  *ngFor="let data of invitedPerson"> {{data.invitationSenderName}} </button>
+<button (click)="toggleTable(invitedPerson)" *ngFor="let data of invitedPerson"> {{data.invitationSenderName}} </button>
 
-  <ng-container *ngIf="showTable">
-    <app-realstate [invitaionerPersonId]="specificUser"></app-realstate>
-  </ng-container>
+<ng-container *ngIf="showTable">
+  <app-realstate [invitaionerPersonId]="specificUser"></app-realstate>
+</ng-container>
 
 <!-- <table  *ngIf='showTable' class="table table-bordered table-striped table-active">
     <thead>
@@ -44,4 +48,3 @@
     </tbody>
  
  </table> -->
-

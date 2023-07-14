@@ -2,9 +2,11 @@
 import { createReducer, on } from "@ngrx/store";
 import { Realstate } from "./realstate";
 import { state } from "@angular/animations";
-import { RealStateFetchAPISuccess, deleteStateAPISuccess, saveNewRealStateAPISucess, updateRealStateAPISucess } from "./realstate.action";
+import { RealStateFetchAPISuccess, deleteStateAPISuccess, normalreaslstate, saveNewRealStateAPISucess, sendSenderId, updateRealStateAPISucess } from "./realstate.action";
 
 export const initialState: ReadonlyArray<Realstate> = [];
+
+export const applicationSenderId:string="";
 
 //For GetALLSTateS
 export const RealstateReducer = createReducer(
@@ -31,7 +33,22 @@ export const RealstateReducer = createReducer(
     return newState;
   }),
 
-  );
+  on(normalreaslstate, (state, { newState }) => {
+    let getState = [...state];
+    return (getState = newState);
+  })
+);
+
+export const invitainSenderIdReducer = createReducer(
+  applicationSenderId,
+  on(sendSenderId, (state, { ApplicationUserId }) => {
+    debugger
+    console.log(ApplicationUserId,"id")
+    return ApplicationUserId;
+  })
+);
+
+  
 
  
  

@@ -13,5 +13,7 @@ namespace TrackingManagment.Identity
         public DbSet<RealState> realStates { get; set; }
         public DbSet<TracingUser> tracingUsers { get; set; }
         public DbSet<InvitedUser> invitedUsers { get; set; }
+
     }
+
 }

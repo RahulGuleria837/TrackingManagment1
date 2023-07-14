@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrackingManagment.Identity;
-using TrackingManagment.Migrations;
 using TrackingManagment.Models;
 
 namespace TrackingManagment.Repository
@@ -19,8 +18,8 @@ namespace TrackingManagment.Repository
         public async Task Add(RealState state)
         {
           
-          await _context.realStates.AddAsync(state);
-           await _context.SaveChangesAsync();
+         await  _context.realStates.AddAsync(state);
+        await  _context.SaveChangesAsync();
         }
 
         //To delete entity with the help of id

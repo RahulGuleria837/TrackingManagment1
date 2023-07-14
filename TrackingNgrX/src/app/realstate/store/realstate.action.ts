@@ -45,6 +45,8 @@ export const invokeRealStateAPI = createAction(
     '[RealState API] delete State api success',
     props<{id:number}>()
   )
+  //For Invitation users
+
 
   export const normalreaslstate = createAction(
     '[RealState API] normal state' ,
@@ -52,11 +54,11 @@ export const invokeRealStateAPI = createAction(
   );
   export const getInvitationrealstate= createAction(
     '[RealState API] get invitation realstate success',
-    props<{ invitationerstateId: any }>()
+    props<{ ApplicationUserId: any }>()
   );
   export const sendSenderId = createAction(
     '[RealState API] sendSenderId realState success',
-    props<{ id: string }>()
+    props<{ ApplicationUserId: string }>()
   );
    
 

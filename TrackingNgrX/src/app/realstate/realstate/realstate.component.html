@@ -1,41 +1,73 @@
 <div class="container mt-3">
-    
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-      Add new Property 
-    </button>
-  </div>
+
+
+  <button [routerLink]="['/add']" (click)="save()" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#myModal">
+    Add
+  </button>
+</div>
 
 <table class="table table-bordered table-striped table-active">
-    <thead>
-     <tr>
- <td> <h5>PropertyName</h5> </td>
- <td><h5>City</h5></td>
- <td><h5>Area</h5></td>
- <td><h5>Price</h5></td>
- <td><h5>action</h5></td>
- 
-     </tr>
-    </thead>
- 
-    <tbody>
-     <tr *ngFor="let book of state$ | async ">
-         <td>{{book.propertyName}}</td>
-         <td>{{book.city}}</td>
-         <td>{{book.area}}</td>
-         <td>{{book.price}}</td>
-      
-          <td> <button [routerLink]="['/edit', book.id ]" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-             <i class="fa fa-edit"></i> 
-           </button>
-           <button (click)="openDeleteModal(book.id)"  class="btn btn-danger p-1 m-1" >
-               <i class="fa fa-trash"></i>
-           </button>
-    
-     </tr>
- 
-    </tbody>
- 
- </table>
+  <thead>
+    <tr>
+      <td>
+        <h5>PropertyName</h5>
+      </td>
+      <td>
+        <h5>City</h5>
+      </td>
+      <td>
+        <h5>Area</h5>
+      </td>
+      <td>
+        <h5>Price</h5>
+      </td>
+      <td>
+        <h5>action</h5>
+      </td>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let book of books$ | async ">
+      <td>{{book.propertyName}}</td>
+      <td>{{book.city}}</td>
+      <td>{{book.area}}</td>
+      <td>{{book.price}}</td>
+
+      <td> 
+        <button [routerLink]="['/edit', book.id ]" class="btn btn-primary" data-bs-toggle="modal"
+          data-bs-target="#editModal">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button (click)="openDeleteModal(book.id)" class="btn btn-danger p-1 m-1">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+      <table class="table w-100 table-bordered table-stripped table-hover">
+        <thead >
+          <tr>
+            <th>Name</th>
+            <th>Operation</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody style="overflow-y: scroll;">
+          <tr *ngFor="let trackingDetail of book.trackingDetails">
+            <td>{{trackingDetail.dataChangeUser.userName}}</td>
+            <td *ngIf="trackingDetail.userActions==1" class="text-center" >Add</td>
+            <td *ngIf="trackingDetail.userActions==2" class="text-center">Update</td>
+            <td *ngIf="trackingDetail.userActions==3" class="text-center">Delete</td>
+            <td>{{trackingDetail.trackingDate | date}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </tr>
+
+  </tbody>
+
+</table>
 
 
 <!-- <div *ngFor="let abc of datass.user | keyvalue">
@@ -46,90 +78,29 @@
  -->
 
 
-  <!-- Save -->
-<!-- The Modal -->
-<div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">NEW USER</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-        
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label for="txtname" class="col-sm-4">propertyName</label>
-
-                    <div class="col-8">
-                        <input type="text"  [(ngModel)]="stateForm.propertyName"    name="companyName"  placeholder="Enter Name" id="txtname" class="form-control">
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label for="price" class="col-sm-4">Price</label>
-                    <div class="col-8">
-                        <input type="number" [(ngModel)]="stateForm.price" name="price"  placeholder="Enter Price" id="price" class="form-control">
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label for="txtname" class="col-sm-4">City</label>
-                    <div class="col-8">
-                        <input type="text"  [(ngModel)]="stateForm.city"  name="city"  placeholder="Enter City" id="txtname" class="form-control">
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label for="txtname" class="col-sm-4">Area</label>
-                    <div class="col-8">
-                        <input type="text"  [(ngModel)]="stateForm.area"  name="Area"  placeholder="Enter Area" id="txtname" class="form-control">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-            <button (click)="save()"   class="btn btn-success" data-bs-dismiss="modal">Save</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-        </div>
-  
-      </div>
-    </div>
-  </div>
-  
-
-   <!-- Edit -->
+<!-- Save -->
 <!-- The Modal -->
 
- 
+
+<!-- Edit -->
+<!-- The Modal -->
+
+
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Are sure to delete this item?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete()">Confirm Delete</button>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are sure to delete this item?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete()">Confirm Delete</button>
       </div>
     </div>
   </div>
+</div>

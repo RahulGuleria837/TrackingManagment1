@@ -295,25 +295,37 @@ namespace TrackingManagment.Migrations
 
             modelBuilder.Entity("TrackingManagment.Models.TracingUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("ChangeMade")
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ChangeTracktime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DataChangeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DataChangeUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RealStateId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserActions")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("DataChangeUserId");
 
                     b.HasIndex("RealStateId");
 
@@ -405,9 +417,11 @@ namespace TrackingManagment.Migrations
                 {
                     b.HasOne("TrackingManagment.Identity.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("TrackingManagment.Identity.ApplicationUser", "DataChangeUser")
+                        .WithMany()
+                        .HasForeignKey("DataChangeUserId");
 
                     b.HasOne("TrackingManagment.Models.RealState", "RealState")
                         .WithMany()
@@ -416,6 +430,8 @@ namespace TrackingManagment.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("DataChangeUser");
 
                     b.Navigation("RealState");
                 });

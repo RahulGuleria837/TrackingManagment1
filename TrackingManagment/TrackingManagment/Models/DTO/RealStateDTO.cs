@@ -7,7 +7,7 @@ namespace TrackingManagment.Models.DTO
 
         public RealStateDTO()
         {
-            TrackingDetails = new List<TracingUser>();
+            TrackingDetails = new List<TrackingOutput>();
         }
 
         public int Id { get; set; }
@@ -19,6 +19,6 @@ namespace TrackingManagment.Models.DTO
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public IList<TracingUser> TrackingDetails { get; set; }
+        public IList<TrackingOutput> TrackingDetails { get; set; }
     }
 }

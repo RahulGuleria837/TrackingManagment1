@@ -19,9 +19,10 @@ import { LoginEffect } from './realstate/store/login.effect';
 import { loginReducer } from './realstate/store/login.reducer';
 import { NewrequestInterceptor } from 'src/INTERCEPTOR/newrequest.interceptor';
 import { RealstateEffect } from './realstate/store/realstate.effect';
-import { RealstateReducer } from './realstate/store/realstate.reducer';
+import { RealstateReducer, invitainSenderIdReducer } from './realstate/store/realstate.reducer';
 import { InvitedpersonComponent } from './invitedperson/invitedperson.component';
 import { ValuesPipe } from './values.pipe';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ValuesPipe } from './values.pipe';
     HomeComponent,
     InviteComponent,
     InvitedpersonComponent,
-    ValuesPipe
+    ValuesPipe,
+    ConfirmationComponent
   
   ],
   imports: [
@@ -47,6 +49,7 @@ import { ValuesPipe } from './values.pipe';
     EffectsModule.forRoot({}),
     EffectsModule.forFeature(RealstateEffect),
     StoreModule.forFeature('mystate', RealstateReducer),
+    StoreModule.forFeature('senderInvitaionerId',invitainSenderIdReducer),
     EffectsModule.forFeature(LoginEffect),
     StoreModule.forFeature('mylogins', loginReducer),
     StoreModule.forRoot({ appState: appReducer }),
@@ -55,7 +58,7 @@ import { ValuesPipe } from './values.pipe';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: NewrequestInterceptor ,
+      useClass: NewrequestInterceptor,
       multi: true
     }
   ],

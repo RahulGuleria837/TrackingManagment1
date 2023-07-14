@@ -8,12 +8,14 @@ import { StoreModule } from '@ngrx/store';
 import { RealstateReducer } from './store/realstate.reducer';
 import { EditComponent } from './edit/edit.component';
 import { FormsModule } from '@angular/forms';
+import { AddComponent } from './add/add.component';
 
 
 @NgModule({
   declarations: [
   
-    EditComponent
+    EditComponent,
+       AddComponent
   ],
   imports: [
     CommonModule,

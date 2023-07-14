@@ -83,7 +83,7 @@ namespace TrackingManagment.Services
         public ApplicationUser CreateToken(ApplicationUser? register)
         {
             var jwtsettings = _appSettings.SecretKey;
-            var jwtsettingsMin = _appSettings.ExpirationMinutes;
+            var jwtsettingsMin = _appSettings.ExpirationDays;
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(jwtsettings);
@@ -95,7 +95,7 @@ namespace TrackingManagment.Services
                     new Claim(ClaimTypes.Name, register.Id.ToString()),
                     // Add additional claims as needed
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(jwtsettingsMin),
+                Expires = DateTime.UtcNow.AddDays(jwtsettingsMin),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
