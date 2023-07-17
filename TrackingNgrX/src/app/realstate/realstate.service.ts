@@ -21,7 +21,7 @@ export class RealstateService {
 
   update(payload:Realstate){
     debugger
-    return this.http.put<Realstate>('http://localhost:5046/udateState',payload)
+    return this.http.put<Realstate>('http://localhost:5046/updateState',payload)
 
   }
   delete(id:number){

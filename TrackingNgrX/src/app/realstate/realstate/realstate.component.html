@@ -30,18 +30,18 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let book of books$ | async ">
-      <td>{{book.propertyName}}</td>
-      <td>{{book.city}}</td>
-      <td>{{book.area}}</td>
-      <td>{{book.price}}</td>
+    <tr *ngFor="let state of state$ | async ">
+      <td>{{state.propertyName}}</td>
+      <td>{{state.city}}</td>
+      <td>{{state.area}}</td>
+      <td>{{state.price}}</td>
 
       <td> 
-        <button [routerLink]="['/edit', book.id ]" class="btn btn-primary" data-bs-toggle="modal"
+        <button [routerLink]="['/edit', state.id ]" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#editModal">
           <i class="fa fa-edit"></i>
         </button>
-        <button (click)="openDeleteModal(book.id)" class="btn btn-danger p-1 m-1">
+        <button (click)="openDeleteModal(state.id)" class="btn btn-danger p-1 m-1">
           <i class="fa fa-trash"></i>
         </button>
       </td>
@@ -49,17 +49,17 @@
         <thead >
           <tr>
             <th>Name</th>
-            <th>Operation</th>
-            <th>Date</th>
+            <th>Action Performed</th>
+            <th>Change Made Date</th>
           </tr>
         </thead>
-        <tbody style="overflow-y: scroll;">
-          <tr *ngFor="let trackingDetail of book.trackingDetails">
-            <td>{{trackingDetail.dataChangeUser.userName}}</td>
-            <td *ngIf="trackingDetail.userActions==1" class="text-center" >Add</td>
-            <td *ngIf="trackingDetail.userActions==2" class="text-center">Update</td>
-            <td *ngIf="trackingDetail.userActions==3" class="text-center">Delete</td>
-            <td>{{trackingDetail.trackingDate | date}}</td>
+        <tbody>
+          <tr *ngFor="let trackingDetail of state.trackingDetails">
+            <td class="text-primary" >{{trackingDetail.dataChangeUser.userName}}</td>
+            <td *ngIf="trackingDetail.userActions==1" class="text-success " >Add</td>
+            <td *ngIf="trackingDetail.userActions==2" class="text-primary">Update</td>
+            <td *ngIf="trackingDetail.userActions==3" class="text-danger">Delete</td>
+            <td class="text-info" > {{trackingDetail.trackingDate | date}} , {{trackingDetail.trackingDate | date:'shortTime'}}</td>
           </tr>
         </tbody>
       </table>

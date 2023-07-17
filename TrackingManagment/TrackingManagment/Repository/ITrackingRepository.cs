@@ -7,7 +7,7 @@ namespace TrackingManagment.Repository
     public interface ITrackingRepository
     {
         ICollection<TracingUser> GetAll(string DataChangeUserId);
-        Task Add(TracingUser trackingUser);
+        public bool Add(TracingUser trackingUser);
     
 
     }

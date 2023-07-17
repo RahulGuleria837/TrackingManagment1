@@ -15,17 +15,18 @@ namespace TrackingManagment.Repository
         }
 
         //To Add new Data to RealState
-        public async Task Add(RealState state)
+        public bool Add(RealState state)
         {
-          
-         await  _context.realStates.AddAsync(state);
-        await  _context.SaveChangesAsync();
+
+            _context.realStates.Add(state);
+            _context.SaveChanges();
+            return true;
         }
 
         //To delete entity with the help of id
-        public async Task<bool> Delete(int id)
+        public bool Delete(int id)
         {
-            var removeUser = await  _context.realStates.FindAsync(id);
+            var removeUser = _context.realStates.Find(id);
 
             _context.realStates.Remove(removeUser);
             _context.SaveChanges();
@@ -39,11 +40,18 @@ namespace TrackingManagment.Repository
             return state;
         }
 
+
         public async Task<List<RealState>> GetAll()
         {
             var getAll = await _context.realStates.ToListAsync();
             return getAll;
-           
+
+        }
+
+        public RealState GetbyId(int id)
+        {
+            var emp = _context.realStates.FirstOrDefault(v => v.Id == id);
+            return emp;
         }
 
         public ICollection<RealState> GetSpecificUserData(string UserID)
@@ -53,13 +61,13 @@ namespace TrackingManagment.Repository
         }
 
         //To update any entity of realState
-        public async Task Update(RealState state)
+        public async Task<bool> Update(RealState state)
         {
             var updateState = _context.realStates.Update(state);
-         await   _context.SaveChangesAsync();
-           
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
-        
     }
 }

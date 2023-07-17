@@ -116,6 +116,7 @@ export class RealstateEffect {
     switchMap((actions)=>{
       return this.invitationService.specificUserData(actions.ApplicationUserId).pipe(
         map((datas:any) => RealStateFetchAPISuccess({ allStates: datas })));
+        
     })
   )
 );

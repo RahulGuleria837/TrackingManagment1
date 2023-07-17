@@ -19,7 +19,7 @@ declare var window: any;
 
 export class RealstateComponent implements OnInit,OnChanges,OnDestroy {
   @Input() invitaionerPersonId:string="";
-  books$:Observable<any>
+  state$:Observable<any>
   xyz:any
   stateForm: Realstate = {
     id: 0,
@@ -40,7 +40,7 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy {
   constructor(private store: Store, private appstore: Store<Appstate>,private router:Router,
      private route: ActivatedRoute,private invitedperson:InvitedpersonService)
  { 
-  this.books$ = this.store.pipe(select(selectRealstate))
+  this.state$ = this.store.pipe(select(selectRealstate))
   }
 
   isObjectType(value: any): value is object {
@@ -86,6 +86,7 @@ ngOnDestroy(): void {
 save(){
   debugger
   this.store.dispatch(sendSenderId({ApplicationUserId:this.invitaionerPersonId}))
+  
 }
  
   

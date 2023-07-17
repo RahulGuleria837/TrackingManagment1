@@ -36,46 +36,9 @@ export class LoginComponent {
         Password:['',Validators.required]
       })
     }
-
-  
-    // loginClick() {
-    //   debugger
-    //   console.log(this.loginForm.value)
-    //   this.loginservice.login(this.loginForm.value).subscribe({
-    //       next:(rr)=>{
-    //         this.currentUser=rr.UserName;
-    //         localStorage["currentUser"]=JSON.stringify(rr);
-    //        this.route.navigate(["/"]);
-    //        this.route.events.subscribe(event => {
-    //        this.loginForm.reset();
-    //        this.route.navigateByUrl('/')
-    //       });
-          
-    //         // console.log(rr)
-    //       },
-    //       error:(err)=>{
-    //          console.log(err);
-    //       }
-          
-    //   })
-    // }
-
   
     loginClick() {
       debugger
-      // //console.log(this.loginForm.value)
-      // this.stores.dispatch(invokeSaveNewLoginAPI({newLogin:this.loginForm.value}));
-      // this.apiStatus$ = this.appstore.pipe(select(selectAppState));
-      // this.apiStatus$.subscribe((apState) => {
-      //   if (apState.apiStatus == 'success') {
-      //     //alert(apState.apiResponseMessage)
-      //   this.route.navigate(['realstate']);
-
-      //   } 
-      //   this.route.navigate(['realstate'])
-        
-      
-      // });
       this.stores.dispatch(invokeSaveNewLoginAPI({newLogin:this.loginForm.value}));
     this.apiStatus$ = this.appstore.pipe(select(selectAppState));
     this.apiStatus$.subscribe((apState) => {

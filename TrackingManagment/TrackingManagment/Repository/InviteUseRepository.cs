@@ -26,6 +26,8 @@ namespace TrackingManagment.Repository
             _emailService = emailService;
         }
         
+
+        //TO CHANGE THE INVITATION STATUS WHEN THE USER ACCEPTED THE REQUEST
         public bool ChangeInvitationStatus(string receiverId, string senderId, int status)
         {
             var sender = _userManager.FindByIdAsync(senderId).Result;
@@ -42,6 +44,7 @@ namespace TrackingManagment.Repository
             return _context.SaveChanges() == 1 ? true : false;
         } 
 
+        //TO CHANGE OR UPDATAE THE USER REQUEST
         public bool UpdateInvitationAction(string receiverID, string senderId, int action)
         {
             var sender = _userManager.FindByIdAsync(senderId).Result;

@@ -8,7 +8,6 @@ import { RegisterComponent } from './register/register.component';
 import { RouterModule } from '@angular/router';
 import{HTTP_INTERCEPTORS, HttpClientModule,} from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './realstate/home/home.component';
 import { RealstateComponent } from './realstate/realstate/realstate.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,7 +30,6 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     RegisterComponent,
     LoginComponent,
     RealstateComponent,
-    HomeComponent,
     InviteComponent,
     InvitedpersonComponent,
     ValuesPipe,

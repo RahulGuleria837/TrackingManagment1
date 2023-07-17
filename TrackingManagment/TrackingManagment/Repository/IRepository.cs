@@ -1,4 +1,5 @@
-﻿using TrackingManagment.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using TrackingManagment.Models;
 
 namespace TrackingManagment.Repository
 {
@@ -6,9 +7,13 @@ namespace TrackingManagment.Repository
     {
         Task<List<RealState>>GetAll();
         Task<RealState> Get(int id);
-        Task Update(RealState state);
-        Task Add(RealState state);
-        Task<bool> Delete(int id);
+        public RealState GetbyId(int id);
+        Task<bool> Update(RealState state);
+        
+        public bool Add(RealState state);
+        public bool Delete(int id);
        ICollection<RealState> GetSpecificUserData(String UserID);
+
+
     }
 }

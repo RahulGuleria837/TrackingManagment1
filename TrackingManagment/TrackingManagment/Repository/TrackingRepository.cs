@@ -16,10 +16,11 @@ namespace TrackingManagment.Repository
             _context = context;
             _userManager = userManager;
         }
-        public async Task Add(TracingUser trackingUser)
+        public bool Add(TracingUser trackingUser)
         {
-            await _context.tracingUsers.AddAsync(trackingUser);
-            await _context.SaveChangesAsync();
+             _context.tracingUsers.Add(trackingUser);
+             _context.SaveChanges();
+            return true;
 
         }
 

@@ -22,6 +22,7 @@ export class EditComponent implements OnInit  {
     city: '',
     area: '',
     applicationUserId:""
+
   }
 
  
@@ -43,6 +44,7 @@ export class EditComponent implements OnInit  {
   
 
   ngOnInit(): void {
+    debugger
     let fetchData$ = this.route.paramMap.pipe(
       switchMap((params) => {
         var id = Number(params.get('id'));
