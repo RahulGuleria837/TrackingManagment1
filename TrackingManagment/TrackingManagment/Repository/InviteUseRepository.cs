@@ -8,6 +8,7 @@ using System.ComponentModel.Design;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using TrackingManagment.Identity;
+using TrackingManagment.Migrations;
 using TrackingManagment.Models;
 using TrackingManagment.ViewModel;
 
@@ -147,11 +148,30 @@ namespace TrackingManagment.Repository
            )
             .ToList();
         }
+
+        //To get all data to register invited person
+        public ICollection<InvitedUser> GetAllRegisteredPersons(string userId)
+        {
+            var data = _context.Set<InvitedUser>().Include(m => m.ApplicationUserReceiver).Where(u => u.InvitationSenderUserId == userId).
+                Select(u => new InvitedUser()
+                {
+                    InvitationReceiverUserId = u.InvitationReceiverUserId,
+                    InvitationSenderUserId = u.InvitationSenderUserId,
+                    /*ApplicationUserReceiver = new ApplicationUser()
+                    {*/
+                        UserNameRec = u.ApplicationUserReceiver.UserName,
+                    UserNamesen = u.ApplicationUserSender.UserName,
+                   /* },*/
+                    Action = u.Action,
+                    Status = u.Status
+                }).
+                ToList();
+            return data;
+        }
     }
 
-       
-       
 
-       
-    }
+
+
+}
 

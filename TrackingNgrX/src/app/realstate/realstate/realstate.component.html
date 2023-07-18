@@ -59,7 +59,7 @@
             <td *ngIf="trackingDetail.userActions==1" class="text-success " >Add</td>
             <td *ngIf="trackingDetail.userActions==2" class="text-primary">Update</td>
             <td *ngIf="trackingDetail.userActions==3" class="text-danger">Delete</td>
-            <td class="text-info" > {{trackingDetail.trackingDate | date}} , {{trackingDetail.trackingDate | date:'shortTime'}}</td>
+            <td class="text-info" > {{trackingDetail.trackingDate | date}} at {{trackingDetail.trackingDate | date:'shortTime'}}</td>
           </tr>
         </tbody>
       </table>

@@ -22,6 +22,7 @@ import { RealstateReducer, invitainSenderIdReducer } from './realstate/store/rea
 import { InvitedpersonComponent } from './invitedperson/invitedperson.component';
 import { ValuesPipe } from './values.pipe';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AuthGuard } from './auth.guard';
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
+      provide:  HTTP_INTERCEPTORS,
       useClass: NewrequestInterceptor,
       multi: true
     }

@@ -1,34 +1,45 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 offser-md-3">
-<form>
-
-<div class="form-group">
-<label for="UserName">UserName</label>
-<input type="text" class="form-control" placeholder="enter name" formControlName="userName" >
-</div>
-
-
-<div class="form-group">
-  <label for="UserName">Password</label>
-  <input type="password" class="form-control" placeholder="Enter password" formControlName="password">
-  </div>
-  
-<div class="form-group">
-  <label for="UserName">Confirm Password</label>
-  <input type="password" class="form-control" placeholder="Confirm Your Password" formControlName="confirmPassword">
-  </div>
-  
-
-
-  <div class="form-group">
-    <button class="btn btn-primary">
+<div class="row col-md-4 mx-auto">
+  <div class="card text-center mx-auto p-2 my-2">
+    <div class="card-header bg-primary">
       Register
-    </button>
-  </div>
-
-</form>
-
     </div>
+    <form [formGroup]="loginForm" (ngSubmit)="registerClick()">
+      <div class="card-body">
+        <div class="form-group row">
+          <label for="UserName" class="col-md-4">
+            <h6>USERNAME</h6>
+          </label>
+          <div class="col-md-8">
+            <input type="text" class="form-control" id="UserName" formControlName="UserName" placeholder="userName"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="Password" class="col-md-4">
+            <h6>PASSWORD</h6>
+          </label>
+          <div class="col-md-8">
+            <input class="form-control" type="password" id="Password" placeholder="Enter password" class="form-control"
+              formControlName="Password" />
+          </div>
+          
+        </div>
+
+        <div class="form-group row">
+          <label for="email" class="col-md-4">
+            <h6>email</h6>
+          </label>
+          <div class="col-md-8">
+            <input class="form-control" type="email" id="email" placeholder="Enter email" class="form-control"
+              formControlName="email" />
+          </div>
+          
+        </div>
+
+        
+      </div>
+      <div class="card-footer text-muted">
+        <button type="submit" class="btn btn-info">Login</button>
+
+      </div>
+    </form>
   </div>
-</div>

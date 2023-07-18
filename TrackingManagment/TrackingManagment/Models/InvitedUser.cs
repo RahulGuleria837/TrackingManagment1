@@ -21,7 +21,9 @@ namespace TrackingManagment.Models
         public ApplicationUser? ApplicationUserReceiver { get; set; }
         public Action Action { get; set; }
         public Status Status { get; set; }
-
-
+        [NotMapped]
+        public string? UserNameRec { get; internal set; }
+        [NotMapped]
+        public string? UserNamesen { get; internal set; }
     }
 }

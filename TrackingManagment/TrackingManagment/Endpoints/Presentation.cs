@@ -435,9 +435,12 @@ namespace TrackingManagment.Endpoints
             return Results.Ok(new { Status = 1, Message = "Invitation Updated Successfully" });
         }
 
-        public static IResult InviteUserGetAll(IInviteUserRepository _inviteuser)
+        //TO GET ALL THE INVITED PERSON 
+        public static IResult InviteUserGetAll(IHttpContextAccessor httpContextAccessor,IInviteUserRepository _inviteuser)
         {
-            var getAll = _inviteuser.GetAll();
+            var token = httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var getId = _inviteuser.GetUserIdFromToken(token);
+            var getAll= _inviteuser.GetAllRegisteredPersons(getId);            
             return Results.Ok(getAll);
         }
 

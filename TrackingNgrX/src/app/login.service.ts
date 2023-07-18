@@ -17,4 +17,7 @@ export class LoginService {
   debugger
     return this.httpclient.post<any>('http://localhost:5046/minimalAPI/login',login);
   }
+  register(register:any):Observable<any>{
+   return this.httpclient.post<any>('http://localhost:5046/minimalAPI/register',register)
+  }
 }

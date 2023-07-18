@@ -16,6 +16,7 @@ export class NewrequestInterceptor implements HttpInterceptor {
 
     var currentUser = {token:""};
     var getcurrentUser = localStorage.getItem('currentUser');
+    console.log(getcurrentUser);
     if(getcurrentUser !=null){
       currentUser.token = JSON.parse(getcurrentUser).token;
       

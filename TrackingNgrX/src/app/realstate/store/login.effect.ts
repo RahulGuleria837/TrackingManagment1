@@ -63,6 +63,7 @@ login$ = createEffect(() => {
       return this._login.login(action.newLogin).pipe(
         map((data) => {
           localStorage.setItem("currentUser",JSON.stringify(data))
+          console.log(localStorage.getItem("currentUser"));
           this.appStore.dispatch(
             setApiStatus({
               apiStatus: { apiResponseMessage: '', apiStatus: 'success' },

@@ -22,8 +22,11 @@ namespace TrackingManagment.Repository
         public bool UpdateInvitationAction(string receiverID,string senderId,int status);
 
         public ICollection<InvitedUser> InvitationComesFromUser(string userId);
+        public ICollection<InvitedUser> GetAllRegisteredPersons(string userId);
 
 
-      
+
+
+
     }
 }
