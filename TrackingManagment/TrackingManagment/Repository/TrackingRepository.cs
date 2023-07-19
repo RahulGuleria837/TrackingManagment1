@@ -32,5 +32,9 @@ namespace TrackingManagment.Repository
             return getAll;
         }
 
+        public ICollection<TracingUser> GetByrealID(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

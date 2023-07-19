@@ -21,7 +21,7 @@
       <div class="row" *ngIf="login$ | async as login">
        <div class="row" *ngIf="login.data==null || login.logout ">
          <div class="col-2 offset-4">
-             <button style="margin-left: 1300px;" routerLink="login" class="btn btn-success">Login</button>
+             <button style="margin-left: 1300px;"  routerLink="login" class="btn btn-success">Login</button>
          </div>
          <div class="col-3 offset-1">
           <button style="margin-left: 1300px;" routerLink="register" class="btn btn-success">Register</button>
@@ -32,6 +32,13 @@
              <button  style="margin-left: 1300px;" class="btn btn-success" (click)="LogoutClick()" >Logout</button>
          </div>
        </div>
+       
+       <div>
+        <div class="col-2 offset-8">
+            <a  style="margin-left: 1300px; color:rgb(255, 255, 255);"></a>
+        </div>
+      </div>
+
        <div>
        </div>
        </div>

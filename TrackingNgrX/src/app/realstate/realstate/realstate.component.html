@@ -1,3 +1,9 @@
+<div>
+  <a style="margin-left: 1780px; color: crimson;" >
+   {{logginUser.userName}}
+  </a>
+</div>
+
 <div class="container mt-3">
 
 
@@ -23,8 +29,11 @@
         <h5>Price</h5>
       </td>
       <td>
-        <h5>action</h5>
+        <h5>Action</h5>
       </td>
+      <td>  <button (click)="toggletablefortracking()" >ShowTracking</button></td>
+      <td></td>
+   
 
     </tr>
   </thead>
@@ -35,17 +44,17 @@
       <td>{{state.city}}</td>
       <td>{{state.area}}</td>
       <td>{{state.price}}</td>
-
+     
       <td> 
-        <button [routerLink]="['/edit', state.id ]" class="btn btn-primary" data-bs-toggle="modal"
+        <button [disabled]="state.isDeleted==true" [routerLink]="['/edit', state.id ]" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#editModal">
           <i class="fa fa-edit"></i>
         </button>
-        <button (click)="openDeleteModal(state.id)" class="btn btn-danger p-1 m-1">
+        <button  [disabled]="state.isDeleted==true" (click)="openDeleteModal(state.id)" class="btn btn-danger p-1 m-1">
           <i class="fa fa-trash"></i>
         </button>
       </td>
-      <table class="table w-100 table-bordered table-stripped table-hover">
+      <table *ngIf="showTableTracking" class="table w-100 table-bordered table-stripped table-hover">
         <thead >
           <tr>
             <th>Name</th>
@@ -58,7 +67,7 @@
             <td class="text-primary" >{{trackingDetail.dataChangeUser.userName}}</td>
             <td *ngIf="trackingDetail.userActions==1" class="text-success " >Add</td>
             <td *ngIf="trackingDetail.userActions==2" class="text-primary">Update</td>
-            <td *ngIf="trackingDetail.userActions==3" class="text-danger">Delete</td>
+            <td *ngIf="trackingDetail.userActions==3 " class="text-danger">Delete</td>
             <td class="text-info" > {{trackingDetail.trackingDate | date}} at {{trackingDetail.trackingDate | date:'shortTime'}}</td>
           </tr>
         </tbody>

@@ -4,7 +4,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { selectLogins } from './realstate/store/login.selector';
 import { Logout, saveNewLoginAPISucess } from './realstate/store/login.action';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,11 +11,16 @@ import { Logout, saveNewLoginAPISucess } from './realstate/store/login.action';
 })
 export class AppComponent implements OnInit {
   title: any;
-
+ logginUser:any;
   constructor(private store: Store, private router: Router) { }
   login$ = this.store.pipe(select(selectLogins));
 
   ngOnInit(): void {
+    // var currentUser = localStorage.getItem('currentUser');
+    // if (currentUser) {
+    //   this.logginUser = JSON.parse(currentUser);}
+   
+
     this.login$.subscribe((data) => {
       if (data.data == null) {
         let localData = localStorage.getItem('currentUser');
@@ -39,6 +43,11 @@ export class AppComponent implements OnInit {
     this.store.dispatch(Logout({ data: { result: null, logout: true } }));
     this.router.navigate(['login']);
   }
+user(){
+  var currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      this.logginUser = JSON.parse(currentUser);}
+}
 
 }
 

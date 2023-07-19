@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { Appstate } from 'src/app/shared/store/appstate';
 import { InvitedpersonService } from 'src/app/invitedperson.service';
+import { applicationSenderId } from '../store/realstate.reducer';
 
 declare var window: any;
 @Component({
@@ -17,7 +18,7 @@ declare var window: any;
   styleUrls: ['./realstate.component.scss']
 })
 
-export class RealstateComponent implements OnInit,OnChanges,OnDestroy {
+export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
   @Input() invitaionerPersonId:string="";
   state$:Observable<any>
   xyz:any
@@ -29,8 +30,11 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy {
     area: '',
     applicationUserId: ""
   }
+  logginUser:any;
   
-  
+  //FOR TARCKING USER
+  showTableTracking:boolean=false;
+    buttonLabeltracking='Show Table'
 
 
 
@@ -41,7 +45,11 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy {
      private route: ActivatedRoute,private invitedperson:InvitedpersonService)
  { 
   this.state$ = this.store.pipe(select(selectRealstate))
+  this.state$.subscribe((data)=>{
+      console.log(data,"test");
+  })
   }
+  
 
   isObjectType(value: any): value is object {
     return typeof value === 'object' && value !== null;
@@ -72,17 +80,22 @@ ngOnChanges(changes: SimpleChanges): void {
     //delete
     this.deleteModal = new window.bootstrap.Modal(
       document.getElementById('deleteModal')
-     
+       
     
     );
+    var currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      this.logginUser = JSON.parse(currentUser);}
   
   }
 
 ngOnDestroy(): void {
     
     this.store.dispatch(invokeRealStateAPI());
+    
   }
  
+
 save(){
   debugger
   this.store.dispatch(sendSenderId({ApplicationUserId:this.invitaionerPersonId}))
@@ -128,6 +141,12 @@ save(){
         
       }
     })
+  }
+  toggletablefortracking() {
+    
+    this.showTableTracking = !this.showTableTracking;
+    this.buttonLabeltracking = this.showTableTracking ? 'Hide Table' : 'Show Table';
+  
   }
 
 

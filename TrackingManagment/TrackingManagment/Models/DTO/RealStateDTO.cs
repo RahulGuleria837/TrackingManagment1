@@ -20,5 +20,6 @@ namespace TrackingManagment.Models.DTO
         public ApplicationUser ApplicationUser { get; set; }
 
         public IList<TrackingOutput> TrackingDetails { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

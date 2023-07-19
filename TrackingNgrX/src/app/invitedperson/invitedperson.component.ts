@@ -9,9 +9,10 @@ import { getInvitationrealstate, invokeRealStateAPI } from '../realstate/store/r
   templateUrl: './invitedperson.component.html',
   styleUrls: ['./invitedperson.component.scss']
 })
-export class InvitedpersonComponent implements OnInit {
+export class InvitedpersonComponent implements OnInit,OnDestroy {
   name = 'Get Current Url Route Demo';
   showTable:boolean=false;
+  showTableTracking:boolean=false;
   invitationsId:string="";
   currentRoute: string | undefined;
   id:string="";
@@ -22,6 +23,7 @@ export class InvitedpersonComponent implements OnInit {
   
     
     buttonLabel = 'Show Table';
+    buttonLabeltracking='Show Table'
   store: any;
   
 
@@ -47,6 +49,7 @@ export class InvitedpersonComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.elementRef.nativeElement.remove();
+    
    // this.store.dispatch(( invokeRealStateAPI()));
    // this.store.dispatch((getInvitationrealstate(this.invitedPerson)));
  }
@@ -92,8 +95,14 @@ searchData(){
     this.specificUser = invitationSenderUserId[0].invitationSenderUserId;
     console.log(this.specificUser);
   }
+  toggletablefortracking() {
+    
+    this.showTable = !this.showTableTracking;
+    this.buttonLabeltracking = this.showTable ? 'Hide Table' : 'Show Table';
+  
+  }
 
-  SpcecificPersondata(id:any){
+  spcecificPersondata(id:any){
     debugger
     this.invitedPerson.invitationSenderUserId = this.id;
     this.invitedperservice.specificUserData(this.id).subscribe({

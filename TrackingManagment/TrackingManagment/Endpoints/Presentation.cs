@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
@@ -121,28 +123,28 @@ namespace TrackingManagment.Endpoints
 
             });
             //To Create new REalState
-       /*     apps.MapPost("/createState", async (UnitOfWork unit, IRepository _repository, RealState state, IHttpContextAccessor httpContextAccessor, IInviteUserRepository _inviteUser) =>
+            /*     apps.MapPost("/createState", async (UnitOfWork unit, IRepository _repository, RealState state, IHttpContextAccessor httpContextAccessor, IInviteUserRepository _inviteUser) =>
 
-            {
-                var token = httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-                var getUserName = _inviteUser.GetUserIdFromToken(token);
+                 {
+                     var token = httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                     var getUserName = _inviteUser.GetUserIdFromToken(token);
 
-                var checkSenderInDatabase = unit.CheckPersonsId(getUserName);
-                if (checkSenderInDatabase == null) return Results.BadRequest();
-                if (state.ApplicationUserId != "")
-                {
-                    var data = unit.CheckPersonsId(state.ApplicationUserId);
-                    if (data == null) return Results.BadRequest();
-                    state.ApplicationUserId = data.Id;
-                }
-                else
-                {
-                    state.ApplicationUserId = checkSenderInDatabase.Id;
-                }
-                if (state == null) { return Results.BadRequest(); }
-                await _repository.Add(state);
-                return Results.Ok("succesfully added");
-            });*/
+                     var checkSenderInDatabase = unit.CheckPersonsId(getUserName);
+                     if (checkSenderInDatabase == null) return Results.BadRequest();
+                     if (state.ApplicationUserId != "")
+                     {
+                         var data = unit.CheckPersonsId(state.ApplicationUserId);
+                         if (data == null) return Results.BadRequest();
+                         state.ApplicationUserId = data.Id;
+                     }
+                     else
+                     {
+                         state.ApplicationUserId = checkSenderInDatabase.Id;
+                     }
+                     if (state == null) { return Results.BadRequest(); }
+                     await _repository.Add(state);
+                     return Results.Ok("succesfully added");
+                 });*/
 
             //To Update RealState
             apps.MapPut("/updateState", async (UnitOfWork unit, ITrackingRepository trackingRepo, IMapper mapper, RealStateDTO state, IRepository repository,
@@ -154,7 +156,7 @@ namespace TrackingManagment.Endpoints
                 if (getSenderId == null) return Results.BadRequest();
                 var checkSenderInDatabase = unit.CheckPersonsId(getSenderId);
                 if (checkSenderInDatabase == null) return Results.BadRequest();
-                if ( state.ApplicationUserId != "")
+                if (state.ApplicationUserId != "")
                 {
                     var data = unit.CheckPersonsId(state.ApplicationUserId);
                     if (data == null) return Results.BadRequest();
@@ -166,7 +168,7 @@ namespace TrackingManagment.Endpoints
                 }
                 RealState states = mapper.Map<RealState>(state);
                 var addstates = await repository.Update(states);
-                if (! addstates)
+                if (!addstates)
                 {
                     return Results.StatusCode(StatusCodes.Status500InternalServerError);
                 }
@@ -184,15 +186,15 @@ namespace TrackingManagment.Endpoints
                     var trackingCreate = trackingRepo.Add(tracking);
 
                     if (trackingCreate == null) { return Results.StatusCode(StatusCodes.Status500InternalServerError); }
-                    state.TrackingDetails.Add( new TrackingOutput()
-                        {
-                            TrackingId = tracking.Id,
-                            realStateId = tracking.RealStateId,
-                            DataChangeId = tracking.Id,
-                            DataChangeUser = unit.CheckPersonsId(tracking.UserId),
-                            UserActions = (TrackingOutput.Action)tracking.UserActions,
-                            TrackingDate = tracking.ChangeTracktime
-                        });
+                    state.TrackingDetails.Add(new TrackingOutput()
+                    {
+                        TrackingId = tracking.Id,
+                        realStateId = tracking.RealStateId,
+                        DataChangeId = tracking.Id,
+                        DataChangeUser = unit.CheckPersonsId(tracking.UserId),
+                        UserActions = (TrackingOutput.Action)tracking.UserActions,
+                        TrackingDate = tracking.ChangeTracktime
+                    });
                 }
                 return Results.Ok(new { Status = 1, Message = "Book updated successfully", data = states });
             });
@@ -220,7 +222,7 @@ namespace TrackingManagment.Endpoints
                         });*/
 
             //To Delete RealState
-            apps.MapDelete("/delete/{id}",  (UnitOfWork unit, ITrackingRepository trackingRepo, IRepository repository,
+            apps.MapDelete("/delete/{id}", (UnitOfWork unit, ITrackingRepository trackingRepo, IRepository repository,
                 IInviteUserRepository invitationRepo, IHttpContextAccessor httpContextAccessor, int id) =>
 
             {
@@ -244,20 +246,20 @@ namespace TrackingManagment.Endpoints
                         UserActions = TracingUser.Action.Delete,
                         DataChangeId = getState.ApplicationUserId
                     };
-                    if (! trackingRepo.Add(tracking)) { Results.StatusCode(StatusCodes.Status500InternalServerError); }
+                    if (!trackingRepo.Add(tracking)) { Results.StatusCode(StatusCodes.Status500InternalServerError); }
                     getState.IsDeleted = true;
                     repository.Update(getState);
                     return Results.Ok(new { Status = 1, Message = "Shipping deleted successfully", data = getState });
                 }
-                var deletestate =  repository.Delete(id);
+                var deletestate = repository.Delete(id);
                 if (deletestate) return Results.Ok(new { Status = 1, Message = "Deleted Successfully!!" });
                 return Results.StatusCode(StatusCodes.Status500InternalServerError);
-            
-        });
+
+            });
 
             //TO GET SPECIFIC USER DATA
 
-            apps.MapGet("/getspecificdata",  (IRepository _repository, IInviteUserRepository tokenHandler, IHttpContextAccessor _httpContextAccessor, ITrackingRepository trackingRepository,
+            apps.MapGet("/getspecificdata", (IRepository _repository, IInviteUserRepository tokenHandler, IHttpContextAccessor _httpContextAccessor, ITrackingRepository trackingRepository,
              UnitOfWork unitofWork, IMapper mapper) =>
             {
 
@@ -286,7 +288,7 @@ namespace TrackingManagment.Endpoints
                 return Results.Ok(stateDTOs);
             });
 
-        
+
 
             //TO GET USER DATAS 
             apps.MapGet("/getuserdatas/{id}", async (string? id, IRepository repository, IInviteUserRepository tokenHandler, IHttpContextAccessor _httpContextAccessor,
@@ -301,7 +303,7 @@ namespace TrackingManagment.Endpoints
                 // now i will do mapping ......................
                 IList<RealStateDTO> stateDTOs = _mapper.Map<IList<RealStateDTO>>(data);
                 if (data.Count == 0) return Results.Ok(data);
-                var findTracking = _trackingRepository.GetAll(data.FirstOrDefault().ApplicationUserId);
+                var findTracking = _trackingRepository.GetAll(data.FirstOrDefault(u => id == id).ApplicationUserId);
                 foreach (var tracking in findTracking)
                 {
                     stateDTOs.FirstOrDefault(u => u.Id == tracking.RealStateId).TrackingDetails.Add(
@@ -316,7 +318,7 @@ namespace TrackingManagment.Endpoints
                         });
                 }
                 return Results.Ok(stateDTOs);
-            
+
 
             });
 
@@ -395,6 +397,8 @@ namespace TrackingManagment.Endpoints
 
             app.MapGet("/invitationComesFromUser", InvitationfromUser);
 
+            app.MapGet("/trackingDetails", trackingDetailsofUser);
+
 
 
 
@@ -436,11 +440,11 @@ namespace TrackingManagment.Endpoints
         }
 
         //TO GET ALL THE INVITED PERSON 
-        public static IResult InviteUserGetAll(IHttpContextAccessor httpContextAccessor,IInviteUserRepository _inviteuser)
+        public static IResult InviteUserGetAll(IHttpContextAccessor httpContextAccessor, IInviteUserRepository _inviteuser)
         {
             var token = httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
             var getId = _inviteuser.GetUserIdFromToken(token);
-            var getAll= _inviteuser.GetAllRegisteredPersons(getId);            
+            var getAll = _inviteuser.GetAllRegisteredPersons(getId);
             return Results.Ok(getAll);
         }
 
@@ -497,7 +501,52 @@ namespace TrackingManagment.Endpoints
             }
             return Results.Ok(stateDTOs);
         }
-    }
+
+        public static IResult trackingDetailsofUser(string? userId, int id, IRepository repository, IInviteUserRepository tokenHandler, IHttpContextAccessor _httpContextAccessor,
+            ITrackingRepository _trackingRepository,
+            IMapper _mapper,
+            UnitOfWork _unitofWork)
+        {
+            if (string.IsNullOrEmpty(userId))
+                return Results.BadRequest();
+
+            var data = repository.GetSpecificUserData(userId);
+
+            if (data.Count == 0)
+                return Results.NotFound();
+
+            var selectedData = data.FirstOrDefault(u => u.Id == id);
+            if (selectedData == null)
+                return Results.NotFound();
+
+            // now I will do mapping...
+            RealStateDTO stateDTO = _mapper.Map<RealStateDTO>(selectedData);
+
+            var findTracking = _trackingRepository.GetAll(selectedData.ApplicationUserId);
+            foreach (var tracking in findTracking)
+            {
+                if (tracking.RealStateId == selectedData.Id)
+                {
+                    stateDTO.TrackingDetails.Add(
+                        new TrackingOutput()
+                        {
+                            TrackingId = tracking.Id,
+                            realStateId = tracking.RealStateId,
+                            DataChangeId = tracking.Id,
+                            DataChangeUser = _unitofWork.CheckPersonsId(tracking.UserId),
+                            UserActions = (TrackingOutput.Action)tracking.UserActions,
+                            TrackingDate = tracking.ChangeTracktime
+                        });
+                }
+            }
+
+            return Results.Ok(stateDTO);
+        } };
+         
 
 
 }
+
+
+
+ 

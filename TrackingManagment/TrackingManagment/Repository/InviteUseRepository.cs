@@ -157,11 +157,9 @@ namespace TrackingManagment.Repository
                 {
                     InvitationReceiverUserId = u.InvitationReceiverUserId,
                     InvitationSenderUserId = u.InvitationSenderUserId,
-                    /*ApplicationUserReceiver = new ApplicationUser()
-                    {*/
                         UserNameRec = u.ApplicationUserReceiver.UserName,
                     UserNamesen = u.ApplicationUserSender.UserName,
-                   /* },*/
+                 
                     Action = u.Action,
                     Status = u.Status
                 }).
@@ -169,9 +167,6 @@ namespace TrackingManagment.Repository
             return data;
         }
     }
-
-
-
 
 }
 

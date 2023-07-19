@@ -8,7 +8,8 @@ namespace TrackingManagment.Repository
     {
         ICollection<TracingUser> GetAll(string DataChangeUserId);
         public bool Add(TracingUser trackingUser);
-    
+
+        ICollection<TracingUser> GetByrealID(int id);
 
     }
 }
