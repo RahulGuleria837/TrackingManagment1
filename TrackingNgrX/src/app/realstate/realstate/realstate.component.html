@@ -1,6 +1,6 @@
-<div>
-  <a style="margin-left: 1780px; color: crimson;" >
-   {{logginUser.userName}}
+<div style="position: absolute; top: 12.5px; left: -80px; font-size: 19px;">
+  <a style="margin-left: 1780px; color: white;" >{{logginUser.userName}}
+ 
   </a>
 </div>
 
@@ -31,9 +31,6 @@
       <td>
         <h5>Action</h5>
       </td>
-      <td>  <button (click)="toggletablefortracking()" >ShowTracking</button></td>
-      <td></td>
-   
 
     </tr>
   </thead>
@@ -50,53 +47,42 @@
           data-bs-target="#editModal">
           <i class="fa fa-edit"></i>
         </button>
-        <button  [disabled]="state.isDeleted==true" (click)="openDeleteModal(state.id)" class="btn btn-danger p-1 m-1">
+        <button  [disabled]="state.isDeleted==true" (click)="openDeleteModal(state.id)"  class="btn btn-danger p-1 m-1">
           <i class="fa fa-trash"></i>
         </button>
+        <button (click)="specificTracking(state.id,state.applicationUserId) " data-bs-target="#trackingModals" data-bs-toggle="modal">ShowTracking</button>
       </td>
-      <table *ngIf="showTableTracking" class="table w-100 table-bordered table-stripped table-hover">
-        <thead >
-          <tr>
-            <th>Name</th>
-            <th>Action Performed</th>
-            <th>Change Made Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let trackingDetail of state.trackingDetails">
-            <td class="text-primary" >{{trackingDetail.dataChangeUser.userName}}</td>
-            <td *ngIf="trackingDetail.userActions==1" class="text-success " >Add</td>
-            <td *ngIf="trackingDetail.userActions==2" class="text-primary">Update</td>
-            <td *ngIf="trackingDetail.userActions==3 " class="text-danger">Delete</td>
-            <td class="text-info" > {{trackingDetail.trackingDate | date}} at {{trackingDetail.trackingDate | date:'shortTime'}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </tr>
 
   </tbody>
 
 </table>
 
-
-<!-- <div *ngFor="let abc of datass.user | keyvalue">
-  <div *ngIf="abc.key == 'name' || abc.key == 'email'">
-    {{ abc.key }}: {{ abc.value }}
-  </div>
-</div>
- -->
-
+ <!-- <table class="table w-100 table-bordered table-stripped table-hover">
+  <thead >
+    <tr>
+      <th>Name</th>
+      <th>Action Performed</th>
+      <th>Change Made Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let trackingDetail of xyz.trackingDetails">
+      <td class="text-primary" >{{trackingDetail.dataChangeUser.userName}}</td>
+      <td *ngIf="trackingDetail.userActions==1" class="text-success " >Add</td>
+      <td *ngIf="trackingDetail.userActions==2" class="text-primary">Update</td>
+      <td *ngIf="trackingDetail.userActions==3 " class="text-danger">Delete</td>
+      <td class="text-info" > {{trackingDetail.trackingDate | date}} at {{trackingDetail.trackingDate | date:'shortTime'}}</td>
+    </tr>
+  </tbody> -->
 
 <!-- Save -->
 <!-- The Modal -->
 
-
-<!-- Edit -->
-<!-- The Modal -->
+<!-- The Modal Tracking -->
 
 
 <!-- Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -109,6 +95,35 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete()">Confirm Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="trackingModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tracking Detail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let trackingDetail of trackingUser.trackingDetails">
+            <span class="fw-bold">Name:</span> {{ trackingDetail.dataChangeUser.userName }}
+            <br>
+            <span class="fw-bold">Action Performed:</span> 
+            <span *ngIf="trackingDetail.userActions === 1" class="text-success">Add</span>
+            <span *ngIf="trackingDetail.userActions === 2" class="text-primary">Update</span>
+            <span *ngIf="trackingDetail.userActions === 3" class="text-danger">Delete</span>
+            <br>
+            <span class="fw-bold">Change Made Date:</span> {{ trackingDetail.trackingDate | date:'MMM d, yyyy - h:mm a'}}
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

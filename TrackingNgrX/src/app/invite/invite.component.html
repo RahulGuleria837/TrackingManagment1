@@ -72,8 +72,8 @@
     <tbody>
 
       <tr *ngFor ="let invite of invites">
-        <td> {{invite.userNameRec}}</td>
         <td>{{invite.userNamesen}}</td>
+        <td> {{invite.userNameRec}}</td>
         <td>
           <a *ngIf="invite.status == 1" class='fa fa-circle icon-2x ' style="color: rgb(0, 128, 117);" >Approved </a>
           <a *ngIf="invite.status == 2" class='fa fa-circle icon-2x ' style="color: rgba(255, 0, 0, 0.372);"> Rejected</a>

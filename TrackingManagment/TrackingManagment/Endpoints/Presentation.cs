@@ -86,9 +86,30 @@ namespace TrackingManagment.Endpoints
                 RealState realstates = _mapper.Map<RealState>(state);
                 //realstate.ApplicationUser = null;
                 var addState = _repository.Add(realstates);
-                if (addState == null)
+                if (state.ApplicationUserId == getUserName)
                 {
-                    return Results.StatusCode(StatusCodes.Status500InternalServerError);
+                    // here we will perform tracking.................
+                    TracingUser tracking = new TracingUser()
+                    {
+                        RealStateId = realstates.Id,
+                        UserId = getUserName,
+                        ChangeTracktime = DateTime.UtcNow,
+                        UserActions = TracingUser.Action.Add,
+                        DataChangeId = realstates.ApplicationUserId
+                    };
+
+                    var trackingCreate = _trackingRepository.Add(tracking);
+
+                    if (trackingCreate == null) { return Results.StatusCode(StatusCodes.Status500InternalServerError); }
+                    state.TrackingDetails.Add(new TrackingOutput()
+                    {
+                        TrackingId = tracking.Id,
+                        realStateId = tracking.RealStateId,
+                        DataChangeId = tracking.Id,
+                        DataChangeUser = unit.CheckPersonsId(tracking.UserId),
+                        UserActions = (TrackingOutput.Action)tracking.UserActions,
+                        TrackingDate = tracking.ChangeTracktime
+                    });
                 }
                 // now we will create a tracking here .......................
                 // we will check first tracking start or not ........................
@@ -168,9 +189,31 @@ namespace TrackingManagment.Endpoints
                 }
                 RealState states = mapper.Map<RealState>(state);
                 var addstates = await repository.Update(states);
-                if (!addstates)
+                if (state.ApplicationUserId == getSenderId)
                 {
-                    return Results.StatusCode(StatusCodes.Status500InternalServerError);
+                    // here we will perform tracking.................
+                    TracingUser tracking = new TracingUser()
+                    {
+                        RealStateId = states.Id,
+                        UserId = getSenderId,
+                        ChangeTracktime = DateTime.UtcNow,
+                        UserActions = TracingUser.Action.Update,
+                        DataChangeId = states.ApplicationUserId
+                    };
+                    var trackingCreate = trackingRepo.Add(tracking);
+
+                    if (trackingCreate == null) { return Results.StatusCode(StatusCodes.Status500InternalServerError); }
+                    state.TrackingDetails.Add(new TrackingOutput()
+                    {
+                        TrackingId = tracking.Id,
+                        realStateId = tracking.RealStateId,
+                        DataChangeId = tracking.Id,
+                        DataChangeUser = unit.CheckPersonsId(tracking.UserId),
+                        UserActions = (TrackingOutput.Action)tracking.UserActions,
+                        TrackingDate = tracking.ChangeTracktime
+                    });
+
+
                 }
                 if (states.ApplicationUserId != getSenderId)
                 {
@@ -502,7 +545,8 @@ namespace TrackingManagment.Endpoints
             return Results.Ok(stateDTOs);
         }
 
-        public static IResult trackingDetailsofUser(string? userId, int id, IRepository repository, IInviteUserRepository tokenHandler, IHttpContextAccessor _httpContextAccessor,
+       
+        public static IResult trackingDetailsofUser(string userId, int id, IRepository repository, IInviteUserRepository tokenHandler, IHttpContextAccessor _httpContextAccessor,
             ITrackingRepository _trackingRepository,
             IMapper _mapper,
             UnitOfWork _unitofWork)
@@ -546,7 +590,47 @@ namespace TrackingManagment.Endpoints
 
 
 }
+/*apps.MapGet("/getuserdatas/{id}", async (string? id, int? realStateId, IRepository repository, IInviteUserRepository tokenHandler, IHttpContextAccessor _httpContextAccessor,
+            ITrackingRepository _trackingRepository,
+            IMapper _mapper,
+            UnitOfWork _unitofWork) =>
 
+{
+    if (string.IsNullOrEmpty(id) || realStateId == null)
+        return Results.BadRequest();
 
+    var data = repository.GetSpecificUserData(id);
 
- 
+    if (data.Count == 0)
+        return Results.NotFound();
+
+    var selectedData = data.FirstOrDefault(u => u.Id == id);
+    if (selectedData == null)
+        return Results.NotFound();
+
+    // now I will do mapping...
+    RealStateDTO stateDTO = _mapper.Map<RealStateDTO>(selectedData);
+
+    var findTracking = _trackingRepository.GetAll(selectedData.ApplicationUserId);
+
+    foreach (var tracking in findTracking)
+    {
+        if (tracking.RealStateId == realStateId)
+        {
+            stateDTO.TrackingDetails.Add(
+                new TrackingOutput()
+                {
+                    TrackingId = tracking.Id,
+                    realStateId = tracking.RealStateId,
+                    DataChangeId = tracking.Id,
+                    DataChangeUser = _unitofWork.CheckPersonsId(tracking.UserId),
+                    UserActions = (TrackingOutput.Action)tracking.UserActions,
+                    TrackingDate = tracking.ChangeTracktime
+                });
+        }
+    }
+
+    return Results.Ok(stateDTO);
+});
+*/
+

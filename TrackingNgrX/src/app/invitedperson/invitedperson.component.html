@@ -11,7 +11,7 @@
 
 <h3>RealState Data</h3>
 
-<button (click)="toggleTable(invitedPerson)" *ngFor="let data of invitedPerson"> {{data.invitationSenderName}} </button>
+<button  [disabled]="data.action==2 || data.action ==3" (click)="toggleTable(invitedPerson.id)" *ngFor="let data of invitedPerson"> {{data.invitationSenderName}} </button>
 
 <ng-container *ngIf="showTable">
   <app-realstate [invitaionerPersonId]="specificUser"></app-realstate>

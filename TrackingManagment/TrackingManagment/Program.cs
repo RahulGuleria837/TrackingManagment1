@@ -121,7 +121,7 @@ app.MapGroup("/minimalAPI")
 
 app.MapGroup("/minimalAPI")
     .INVITATION_API()
-    .WithTags("Invitation").RequireAuthorization();
+    .WithTags("Invitation");
 
 /*app.MapGroup("/minimalAPI")
     .TrackingUserAPI();

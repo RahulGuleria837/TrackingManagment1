@@ -23,7 +23,7 @@ export class InvitedpersonComponent implements OnInit,OnDestroy {
   
     
     buttonLabel = 'Show Table';
-    buttonLabeltracking='Show Table'
+    buttonLabeltracking='Show Table';
   store: any;
   
 
@@ -65,10 +65,10 @@ statuschanging(){
    
     this.invitedperservice.Status(this.reciverid,this.status).subscribe({
       next: (data)=>{
-        console.log(data);
+        console.log(data,"status");
       },
       error:(err)=>{
-        console.log(err);
+        console.log(err,"errr");
       }
     })
 

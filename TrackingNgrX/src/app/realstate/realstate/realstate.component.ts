@@ -10,6 +10,7 @@ import { Observable, switchMap } from 'rxjs';
 import { Appstate } from 'src/app/shared/store/appstate';
 import { InvitedpersonService } from 'src/app/invitedperson.service';
 import { applicationSenderId } from '../store/realstate.reducer';
+import { RealstateService } from '../realstate.service';
 
 declare var window: any;
 @Component({
@@ -21,7 +22,37 @@ declare var window: any;
 export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
   @Input() invitaionerPersonId:string="";
   state$:Observable<any>
-  xyz:any
+  
+  
+  trackingUser = {
+    trackingDetails: [
+      {
+        dataChangeUser: {
+          userName: ''
+        },
+        userActions: 1, // 1 for 'Add', 2 for 'Update', 3 for 'Delete'
+        trackingDate: new Date()
+      },
+      {
+        dataChangeUser: {
+          userName: ''
+        },
+        userActions: 2,
+        trackingDate: new Date()
+      },
+      {
+        dataChangeUser: {
+          userName: ''
+        },
+        userActions: 3,
+        trackingDate: new Date()
+      }
+    ]
+  };
+
+
+
+
   stateForm: Realstate = {
     id: 0,
     propertyName: '',
@@ -30,19 +61,23 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
     area: '',
     applicationUserId: ""
   }
+
+  
+  userId:any
+  
   logginUser:any;
   
-  //FOR TARCKING USER
-  showTableTracking:boolean=false;
+
+ 
     buttonLabeltracking='Show Table'
 
 
-
+  
   deleteModal: any;
   idToDelete: number = 0;
 
   constructor(private store: Store, private appstore: Store<Appstate>,private router:Router,
-     private route: ActivatedRoute,private invitedperson:InvitedpersonService)
+     private route: ActivatedRoute,private invitedperson:InvitedpersonService,private realstateService:RealstateService)
  { 
   this.state$ = this.store.pipe(select(selectRealstate))
   this.state$.subscribe((data)=>{
@@ -80,6 +115,7 @@ ngOnChanges(changes: SimpleChanges): void {
     //delete
     this.deleteModal = new window.bootstrap.Modal(
       document.getElementById('deleteModal')
+
        
     
     );
@@ -101,26 +137,6 @@ save(){
   this.store.dispatch(sendSenderId({ApplicationUserId:this.invitaionerPersonId}))
   
 }
- 
-  
-//   save() {
-//     debugger
-//     this.store.pipe(select(senderId)).subscribe(
-// {
-//   next:(data)=> {this.stateForm.applicationUserId=data}
-// }
-//     )
-//     this.store.dispatch(invokeSaveRealStateAPI({ newStates: this.stateForm }));    
-//     let apiStatus$ = this.appstore.pipe(select(selectAppState));
-//     apiStatus$.subscribe((apState) => {
-//       if (apState.apiStatus == 'success') {
-//         this.appstore.dispatch(
-//           setApiStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
-//         );
-
-//       }
-//     });
-//   }
 
   openDeleteModal(id:number){
     this.idToDelete = id;
@@ -142,14 +158,23 @@ save(){
       }
     })
   }
-  toggletablefortracking() {
-    
-    this.showTableTracking = !this.showTableTracking;
-    this.buttonLabeltracking = this.showTableTracking ? 'Hide Table' : 'Show Table';
   
+  // toggletablefortracking() {
+    
+  //   this.showTableTracking = !this.showTableTracking;
+  //   this.buttonLabeltracking = this.showTableTracking ? 'Hide Table' : 'Show Table';
+  
+  // }
+
+  specificTracking(id:number,applicationUserId:string){
+    debugger
+    this.realstateService.showSpecificTrackingData(id, applicationUserId).subscribe(
+    
+      (data)=>{
+        this.trackingUser = data;
+        console.log(data)
+        
+      }
+)
   }
-
-
-
-
 }

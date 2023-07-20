@@ -15,22 +15,27 @@ export class RealstateService {
     return this.http.get<any[]>('http://localhost:5046/getspecificdata')
   }
   Create(payload:Realstate)
-  {debugger
+  {
     return this.http.post<Realstate>('http://localhost:5046/createState',payload);
   }
 
   update(payload:Realstate){
-    debugger
+  
     return this.http.put<Realstate>('http://localhost:5046/updateState',payload)
 
   }
   delete(id:number){
-    debugger
+
     return this.http.delete(`http://localhost:5046/delete/${id}`);
   }
   login(data:any):Observable<any>{
-    debugger
+   
       return this.http.post<any>('http://localhost:5046/minimalAPI/login',data);
     }
+
+  showSpecificTrackingData(id:number,applicationUserId:string){
+    debugger
+         return this.http.get<any>(`http://localhost:5046/minimalAPI/trackingDetails?userId=${applicationUserId}&id=${id}`)
+  }
 
 }

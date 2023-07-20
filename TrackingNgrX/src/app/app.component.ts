@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { LoginService } from './login.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
@@ -9,15 +9,23 @@ import { Logout, saveNewLoginAPISucess } from './realstate/store/login.action';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit,OnChanges {
   title: any;
  logginUser:any;
   constructor(private store: Store, private router: Router) { }
   login$ = this.store.pipe(select(selectLogins));
 
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+     var currentUser = localStorage.getItem('currentUser');
+     if (currentUser) {
+       this.logginUser = JSON.parse(currentUser);}
+   
+  }
   ngOnInit(): void {
-    // var currentUser = localStorage.getItem('currentUser');
-    // if (currentUser) {
+    //  var currentUser = localStorage.getItem('currentUser');
+    //  if (currentUser) {
     //   this.logginUser = JSON.parse(currentUser);}
    
 
