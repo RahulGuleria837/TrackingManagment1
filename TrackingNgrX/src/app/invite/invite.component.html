@@ -29,11 +29,11 @@
         </div>
       </form>
       <div *ngIf="displayNameIsNot">
-        <div
+        <div style="cursor: pointer;"
           *ngFor="let result of results$ | async"
           (click)="mouseover($event, result.userId)"
           class="form-group">
-          <input class="form-control" [value]="result.userName"  />
+          <input style="cursor: pointer;" class="form-control" [value]="result.userName"  />
         </div>
       </div>
     </div>

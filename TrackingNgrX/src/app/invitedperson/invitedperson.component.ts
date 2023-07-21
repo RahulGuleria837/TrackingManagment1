@@ -18,8 +18,8 @@ export class InvitedpersonComponent implements OnInit,OnDestroy {
   id:string="";
   specificUser:any
   invitedPerson:any
-    reciverid:string | undefined;
-    status:string | undefined;
+  reciverid:string | undefined;
+  status:string | undefined;
   
     
     buttonLabel = 'Show Table';
@@ -29,9 +29,7 @@ export class InvitedpersonComponent implements OnInit,OnDestroy {
 
   constructor (private route:Router,private router:ActivatedRoute,private invitedperservice:InvitedpersonService,private elementRef: ElementRef){
     console.log(route.url);
-
-
-  }
+   }
  
 
   ngOnInit(): void {
@@ -49,70 +47,47 @@ export class InvitedpersonComponent implements OnInit,OnDestroy {
 
   ngOnDestroy(): void {
     this.elementRef.nativeElement.remove();
-    
-   // this.store.dispatch(( invokeRealStateAPI()));
-   // this.store.dispatch((getInvitationrealstate(this.invitedPerson)));
  }
 
 
   //getting the id from the routes from the help of parmMap 
 statuschanging(){
-  debugger
   this.router.paramMap.subscribe(params=>{
     this.reciverid = params.get('reciverId')??"";
-    // this.displaystatus.SenderId= params.get('id1')??"";
     this.status=params.get('status')??"";
-   
     this.invitedperservice.Status(this.reciverid,this.status).subscribe({
       next: (data)=>{
         console.log(data,"status");
       },
       error:(err)=>{
         console.log(err,"errr");
-      }
-    })
-
-  } )
+      }})})
 }
 
 searchData(){
-  // this.router.paramMap.subscribe(params=>{
-  //   this.Receiverid = params.get('id')??"";
-
   this.invitedperservice.invitedPersonData().subscribe({
     next:(data)=>{
-      console.log(data,"data")
+      console.log(data,"dataaaaaaaaaaaaaaaaaaaaaaaaaaa")
       this.invitedPerson = data;
-    }
-  })
+    }})
   }
 
   toggleTable(invitationSenderUserId:any) {
-    console.log(invitationSenderUserId);
-    debugger
+    console.log(invitationSenderUserId)
     this.showTable = !this.showTable;
     this.buttonLabel = this.showTable ? 'Hide Table' : 'Show Table';
-    this.specificUser = invitationSenderUserId[0].invitationSenderUserId;
+    this.specificUser = invitationSenderUserId;
     console.log(this.specificUser);
   }
   toggletablefortracking() {
-    
     this.showTable = !this.showTableTracking;
     this.buttonLabeltracking = this.showTable ? 'Hide Table' : 'Show Table';
-  
   }
 
   spcecificPersondata(id:any){
-    debugger
     this.invitedPerson.invitationSenderUserId = this.id;
     this.invitedperservice.specificUserData(this.id).subscribe({
-      next:(ok)=>{
-                this.specificUser = ok;
+      next:(ok)=>{ this.specificUser = ok;
                 console.log(ok,"ok")
-                
-      }
-    })
-  }
-
-
+               }})}
 }

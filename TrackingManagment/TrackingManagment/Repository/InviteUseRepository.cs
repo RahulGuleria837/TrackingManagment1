@@ -75,6 +75,9 @@ namespace TrackingManagment.Repository
                 return false;
             
 
+            var senderEmail = _context.invitedUsers.FirstOrDefault(iv=> iv.InvitationReceiverUserId == reciverId && iv.InvitationSenderUserId == senderId );
+            if (senderEmail != null) return false;
+
 
             //if (senderId == null && reciverId == null) throw new ArgumentNullException();
             InvitedUser invitedUser = new InvitedUser

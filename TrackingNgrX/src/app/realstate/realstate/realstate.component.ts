@@ -20,10 +20,15 @@ declare var window: any;
 })
 
 export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
+
   @Input() invitaionerPersonId:string="";
   state$:Observable<any>
-  
-  
+  userId:any
+  logginUser:any;
+     buttonLabeltracking='Show Table'
+  deleteModal: any;
+  idToDelete: number = 0;
+
   trackingUser = {
     trackingDetails: [
       {
@@ -50,9 +55,6 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
     ]
   };
 
-
-
-
   stateForm: Realstate = {
     id: 0,
     propertyName: '',
@@ -61,20 +63,6 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
     area: '',
     applicationUserId: ""
   }
-
-  
-  userId:any
-  
-  logginUser:any;
-  
-
- 
-    buttonLabeltracking='Show Table'
-
-
-  
-  deleteModal: any;
-  idToDelete: number = 0;
 
   constructor(private store: Store, private appstore: Store<Appstate>,private router:Router,
      private route: ActivatedRoute,private invitedperson:InvitedpersonService,private realstateService:RealstateService)
@@ -85,12 +73,9 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
   })
   }
   
-
   isObjectType(value: any): value is object {
     return typeof value === 'object' && value !== null;
   }
-
-  // state$ = this.store.pipe(select(selectRealstate));
 
 ngOnChanges(changes: SimpleChanges): void {
   if (this.invitaionerPersonId != "") {
@@ -98,44 +83,25 @@ ngOnChanges(changes: SimpleChanges): void {
       getInvitationrealstate({
       ApplicationUserId:this.invitaionerPersonId
       })
-    );
-  
-  } 
-}
-// this.store.dispatch(invokeSaveNewBookAPI({ newBook: this.bookForm }));
-// let apiStatus$ = this.appStore.pipe(select(selectAppState));
-// apiStatus$.subscribe((apState) => {
-//   if (apState.apiStatus == 'success') {
-//     // this.router.navigate(['home']);
-//     this.locationService.back();
+    );}}
 
 
   ngOnInit(): void {
     this.store.dispatch(invokeRealStateAPI());
     //delete
     this.deleteModal = new window.bootstrap.Modal(
-      document.getElementById('deleteModal')
-
-       
-    
-    );
+      document.getElementById('deleteModal'));
     var currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
-      this.logginUser = JSON.parse(currentUser);}
-  
-  }
+      this.logginUser = JSON.parse(currentUser);}}
 
 ngOnDestroy(): void {
-    
-    this.store.dispatch(invokeRealStateAPI());
-    
-  }
+this.store.dispatch(invokeRealStateAPI());
+ }
  
 
 save(){
-  debugger
-  this.store.dispatch(sendSenderId({ApplicationUserId:this.invitaionerPersonId}))
-  
+  this.store.dispatch(sendSenderId({ApplicationUserId:this.invitaionerPersonId})) 
 }
 
   openDeleteModal(id:number){
@@ -159,22 +125,11 @@ save(){
     })
   }
   
-  // toggletablefortracking() {
-    
-  //   this.showTableTracking = !this.showTableTracking;
-  //   this.buttonLabeltracking = this.showTableTracking ? 'Hide Table' : 'Show Table';
-  
-  // }
-
   specificTracking(id:number,applicationUserId:string){
     debugger
     this.realstateService.showSpecificTrackingData(id, applicationUserId).subscribe(
-    
       (data)=>{
         this.trackingUser = data;
-        console.log(data)
-        
-      }
-)
-  }
+        console.log(data)        
+   })}
 }

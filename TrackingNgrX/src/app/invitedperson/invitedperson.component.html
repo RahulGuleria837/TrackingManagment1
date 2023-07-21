@@ -1,50 +1,17 @@
 <h1 class="max-auto" style="margin-left:750px ;">Welcome</h1>
 <div style="margin-left: 650px;">
-  <a *ngIf="status ==='1'" class="text text-success">
+  <a *ngIf="status ==='1'" class="text-success">
     <h3> YOU CAN MODIFY THIS DATA</h3>
   </a>
-  <a *ngIf="status ==='2'" class="text text-danger" ;>
+  <a *ngIf="status ==='2'" class="text-danger" ;>
     <h1> YOU CAN NOT MODIFY THIS DATA</h1>
   </a>
 </div>
 
-
 <h3>RealState Data</h3>
 
-<button  [disabled]="data.action==2 || data.action ==3" (click)="toggleTable(invitedPerson.id)" *ngFor="let data of invitedPerson"> {{data.invitationSenderName}} </button>
+<button  [disabled]="data.action==2 || data.action ==3" (click)="toggleTable(data.invitationSenderUserId)" *ngFor="let data of invitedPerson"> {{data.invitationSenderName}} </button>
 
 <ng-container *ngIf="showTable">
   <app-realstate [invitaionerPersonId]="specificUser"></app-realstate>
 </ng-container>
-
-<!-- <table  *ngIf='showTable' class="table table-bordered table-striped table-active">
-    <thead>
-     <tr>
- <td><h6>PropertyName</h6></td>
- <td><h6>City</h6></td>
- <td><h6>Area</h6></td>
- <td><h6>Price</h6></td>
- <td><h6>action</h6></td>
- 
-     </tr>
-    </thead>
- 
-    <tbody>
-     <tr>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
-      
-          <td> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-             <i class="fa fa-edit"></i> 
-           </button>
-           <button class="btn btn-danger p-1 m-1" >
-               <i class="fa fa-trash"></i>
-           </button>
-    
-     </tr>
- 
-    </tbody>
- 
- </table> -->

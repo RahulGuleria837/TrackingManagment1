@@ -1,12 +1,8 @@
 <div style="position: absolute; top: 12.5px; left: -80px; font-size: 19px;">
   <a style="margin-left: 1780px; color: white;" >{{logginUser.userName}}
- 
-  </a>
+ </a>
 </div>
-
 <div class="container mt-3">
-
-
   <button [routerLink]="['/add']" (click)="save()" class="btn btn-primary" data-bs-toggle="modal"
     data-bs-target="#myModal">
     Add
@@ -19,22 +15,12 @@
       <td>
         <h5>PropertyName</h5>
       </td>
-      <td>
-        <h5>City</h5>
-      </td>
-      <td>
-        <h5>Area</h5>
-      </td>
-      <td>
-        <h5>Price</h5>
-      </td>
-      <td>
-        <h5>Action</h5>
-      </td>
-
+      <td><h5>City</h5></td>
+      <td><h5>Area</h5></td>
+      <td><h5>Price</h5></td>
+      <td><h5>Action</h5></td>
     </tr>
   </thead>
-
   <tbody>
     <tr *ngFor="let state of state$ | async ">
       <td>{{state.propertyName}}</td>
@@ -52,36 +38,11 @@
         </button>
         <button (click)="specificTracking(state.id,state.applicationUserId) " data-bs-target="#trackingModals" data-bs-toggle="modal">ShowTracking</button>
       </td>
-
   </tbody>
 
 </table>
 
- <!-- <table class="table w-100 table-bordered table-stripped table-hover">
-  <thead >
-    <tr>
-      <th>Name</th>
-      <th>Action Performed</th>
-      <th>Change Made Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let trackingDetail of xyz.trackingDetails">
-      <td class="text-primary" >{{trackingDetail.dataChangeUser.userName}}</td>
-      <td *ngIf="trackingDetail.userActions==1" class="text-success " >Add</td>
-      <td *ngIf="trackingDetail.userActions==2" class="text-primary">Update</td>
-      <td *ngIf="trackingDetail.userActions==3 " class="text-danger">Delete</td>
-      <td class="text-info" > {{trackingDetail.trackingDate | date}} at {{trackingDetail.trackingDate | date:'shortTime'}}</td>
-    </tr>
-  </tbody> -->
-
-<!-- Save -->
-<!-- The Modal -->
-
-<!-- The Modal Tracking -->
-
-
-<!-- Modal -->
+<!-- Delete Modal -->
 <div class="modal fade" id="deleteModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -100,7 +61,7 @@
   </div>
 </div>
 
-
+<!-- Tracking Modal -->
 <div class="modal" id="trackingModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

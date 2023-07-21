@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.scss']
 })
-export class AddComponent implements OnInit {
+export class AddComponent {
 
   xyz:any
   stateForm: Realstate = {
@@ -27,33 +27,21 @@ export class AddComponent implements OnInit {
   }
   
   constructor(private store:Store, private router:Router,private appstore: Store<Appstate>,private location:Location){}
-
-
-  ngOnInit(): void {
-  }
-
-
   save() {
-    debugger
     this.store.pipe(select(senderId)).subscribe({
 next:(data)=> {this.stateForm.applicationUserId=data}
 })
-
     this.store.dispatch(invokeSaveRealStateAPI({ newStates: this.stateForm }));    
     let apiStatus$ = this.appstore.pipe(select(selectAppState));
 this.location.back();
-
     apiStatus$.subscribe((apState) => {
       if (apState.apiStatus == 'success') {
         this.appstore.dispatch(
           setApiStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' }})
         );}
-  
     });
   }
-
   cancel(){
  this.location.back();
   }
-
 }

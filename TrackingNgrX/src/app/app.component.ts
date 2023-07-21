@@ -10,25 +10,18 @@ import { Logout, saveNewLoginAPISucess } from './realstate/store/login.action';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit,OnChanges {
-  title: any;
- logginUser:any;
-  constructor(private store: Store, private router: Router) { }
+title: any;
+logginUser:any;
+constructor(private store: Store, private router: Router) { }
   login$ = this.store.pipe(select(selectLogins));
-
-
 
   ngOnChanges(changes: SimpleChanges): void {
      var currentUser = localStorage.getItem('currentUser');
      if (currentUser) {
-       this.logginUser = JSON.parse(currentUser);}
-   
+       this.logginUser = JSON.parse(currentUser);} 
   }
-  ngOnInit(): void {
-    //  var currentUser = localStorage.getItem('currentUser');
-    //  if (currentUser) {
-    //   this.logginUser = JSON.parse(currentUser);}
-   
 
+  ngOnInit(): void {
     this.login$.subscribe((data) => {
       if (data.data == null) {
         let localData = localStorage.getItem('currentUser');

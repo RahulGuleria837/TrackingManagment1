@@ -1,0 +1,8 @@
+D:\ASSIGNMENT\TrackingManagment\Task123\Task123\bin\Debug\Task123.exe.config
+D:\ASSIGNMENT\TrackingManagment\Task123\Task123\bin\Debug\Task123.exe
+D:\ASSIGNMENT\TrackingManagment\Task123\Task123\bin\Debug\Task123.pdb
+D:\ASSIGNMENT\TrackingManagment\Task123\Task123\obj\Debug\Task123.csproj.AssemblyReference.cache
+D:\ASSIGNMENT\TrackingManagment\Task123\Task123\obj\Debug\Task123.csproj.SuggestedBindingRedirects.cache
+D:\ASSIGNMENT\TrackingManagment\Task123\Task123\obj\Debug\Task123.csproj.CoreCompileInputs.cache
+D:\ASSIGNMENT\TrackingManagment\Task123\Task123\obj\Debug\Task123.exe
+D:\ASSIGNMENT\TrackingManagment\Task123\Task123\obj\Debug\Task123.pdb

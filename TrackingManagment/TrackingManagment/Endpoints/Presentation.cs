@@ -464,7 +464,7 @@ namespace TrackingManagment.Endpoints
 
             if (getUserName == null) return Results.BadRequest();
             var createMail = _inviteUser.CreateInvitation(getUserName, senderId);
-            if (createMail == null) return Results.BadRequest();
+            if (createMail == false) return Results.BadRequest();
             return Results.Ok();
         }
 
@@ -590,47 +590,5 @@ namespace TrackingManagment.Endpoints
 
 
 }
-/*apps.MapGet("/getuserdatas/{id}", async (string? id, int? realStateId, IRepository repository, IInviteUserRepository tokenHandler, IHttpContextAccessor _httpContextAccessor,
-            ITrackingRepository _trackingRepository,
-            IMapper _mapper,
-            UnitOfWork _unitofWork) =>
 
-{
-    if (string.IsNullOrEmpty(id) || realStateId == null)
-        return Results.BadRequest();
-
-    var data = repository.GetSpecificUserData(id);
-
-    if (data.Count == 0)
-        return Results.NotFound();
-
-    var selectedData = data.FirstOrDefault(u => u.Id == id);
-    if (selectedData == null)
-        return Results.NotFound();
-
-    // now I will do mapping...
-    RealStateDTO stateDTO = _mapper.Map<RealStateDTO>(selectedData);
-
-    var findTracking = _trackingRepository.GetAll(selectedData.ApplicationUserId);
-
-    foreach (var tracking in findTracking)
-    {
-        if (tracking.RealStateId == realStateId)
-        {
-            stateDTO.TrackingDetails.Add(
-                new TrackingOutput()
-                {
-                    TrackingId = tracking.Id,
-                    realStateId = tracking.RealStateId,
-                    DataChangeId = tracking.Id,
-                    DataChangeUser = _unitofWork.CheckPersonsId(tracking.UserId),
-                    UserActions = (TrackingOutput.Action)tracking.UserActions,
-                    TrackingDate = tracking.ChangeTracktime
-                });
-        }
-    }
-
-    return Results.Ok(stateDTO);
-});
-*/
 

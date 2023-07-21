@@ -15,8 +15,7 @@ export class InviteComponent implements OnInit {
   displayNameIsNot: boolean = true;
   displayName = {
     userName:"",
-    userId:""
-  };
+    userId:"" };
   displayInvitation: any;
   results$: Observable<any>;
   subject = new Subject();
