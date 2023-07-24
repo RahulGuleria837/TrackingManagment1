@@ -30,12 +30,7 @@ registerClick() {
     next:(data)=>{
       console.log(data)
     this.route.navigate(['/realstate']);
-
-    }
-
+  }
   })
- 
-}
-
-
+ }
 }

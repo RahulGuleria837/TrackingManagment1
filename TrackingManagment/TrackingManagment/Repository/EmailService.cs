@@ -29,9 +29,9 @@ namespace TrackingManagment.Repository
             var senderId = email.Token;
             var Subject = "Invitation";
             
-            var receiverName = _userManager.FindByIdAsync(recieverId).Result;
+            var receiverName = _userManager.FindByIdAsync(senderId).Result;
             var userName = receiverName.UserName;
-
+            
             var mail = new MimeMessage();
             mail.From.Add(MailboxAddress.Parse(_configuration.GetSection("EmailUsername").Value));
             mail.To.Add(MailboxAddress.Parse(To));

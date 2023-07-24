@@ -4,9 +4,7 @@
   </div>
   <div class="col-6">
     <div class="col-5 offset-6">
-      <button class="btn btn-success" (click)="showInvitationUser()">
-        Invitation
-      </button>
+ 
     </div>
   </div>
 </div>
@@ -24,9 +22,15 @@
           <div class="row mt-2">
             <div class="col-12">
               <input type="text"   name="displayName"   [(ngModel)]="displayName.userName"  placeholder="Search" (keyup)="search($event)" class="form-control"/>
+              
+              
+              <a *ngIf="Changes.status == 1" class='fa fa-circle icon-2x ' style="color: rgba(255, 0, 0, 0.372);">
+                         First Delete Sent Request to send new
+              </a>
                   </div>
           </div>
         </div>
+       
       </form>
       <div *ngIf="displayNameIsNot">
         <div style="cursor: pointer;"
@@ -65,7 +69,7 @@
         <td>InvitationSender</td>
         <td>InvitationReceiver</td>
         <td>Status</td>
-        <td>current Action</td>
+        <td>CurrentAction</td>
         <td>Controls</td>
       </tr>
     </thead>

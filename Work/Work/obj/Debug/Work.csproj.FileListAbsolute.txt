@@ -1,0 +1,8 @@
+D:\ASSIGNMENT\TrackingManagment\Work\Work\bin\Debug\Work.exe.config
+D:\ASSIGNMENT\TrackingManagment\Work\Work\bin\Debug\Work.exe
+D:\ASSIGNMENT\TrackingManagment\Work\Work\bin\Debug\Work.pdb
+D:\ASSIGNMENT\TrackingManagment\Work\Work\obj\Debug\Work.csproj.AssemblyReference.cache
+D:\ASSIGNMENT\TrackingManagment\Work\Work\obj\Debug\Work.csproj.SuggestedBindingRedirects.cache
+D:\ASSIGNMENT\TrackingManagment\Work\Work\obj\Debug\Work.csproj.CoreCompileInputs.cache
+D:\ASSIGNMENT\TrackingManagment\Work\Work\obj\Debug\Work.exe
+D:\ASSIGNMENT\TrackingManagment\Work\Work\obj\Debug\Work.pdb

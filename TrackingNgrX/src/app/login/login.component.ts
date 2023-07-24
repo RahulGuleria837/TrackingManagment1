@@ -18,7 +18,6 @@ import { selectAppState } from '../shared/store/app.selector';
 export class LoginComponent {
 
  
-
   currentUser:any;
   loginForm!:FormGroup;
   apiStatus$: Observable<any>;
@@ -44,7 +43,7 @@ export class LoginComponent {
     this.apiStatus$.subscribe((apState) => {
       if (apState.apiStatus == 'success') {
         alert(apState.apiResponseMessage)
-        this.route.navigate(['realstate']);
+        //this.route.navigate(['realstate']);
       }
       this.route.navigate(['realstate']);
     });

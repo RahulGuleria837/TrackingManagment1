@@ -28,46 +28,21 @@ export class InvitedpersonComponent implements OnInit,OnDestroy {
   
 
   constructor (private route:Router,private router:ActivatedRoute,private invitedperservice:InvitedpersonService,private elementRef: ElementRef){
-    console.log(route.url);
+    // console.log(route.url);
    }
  
 
   ngOnInit(): void {
     this.searchData()
-    
-    this.router.paramMap.subscribe(params=>{
-      const Senderid = params.get('id');
-      const Receiverid= params.get('id1')
-      const status=params.get('id2')
-      // console.log('SenderId=',Senderid);
-      // console.log('Receiverid=',Receiverid);
-      // console.log('Status=',status);
-    })
   }
 
   ngOnDestroy(): void {
     this.elementRef.nativeElement.remove();
  }
 
-
-  //getting the id from the routes from the help of parmMap 
-statuschanging(){
-  this.router.paramMap.subscribe(params=>{
-    this.reciverid = params.get('reciverId')??"";
-    this.status=params.get('status')??"";
-    this.invitedperservice.Status(this.reciverid,this.status).subscribe({
-      next: (data)=>{
-        console.log(data,"status");
-      },
-      error:(err)=>{
-        console.log(err,"errr");
-      }})})
-}
-
 searchData(){
   this.invitedperservice.invitedPersonData().subscribe({
     next:(data)=>{
-      console.log(data,"dataaaaaaaaaaaaaaaaaaaaaaaaaaa")
       this.invitedPerson = data;
     }})
   }
@@ -77,7 +52,7 @@ searchData(){
     this.showTable = !this.showTable;
     this.buttonLabel = this.showTable ? 'Hide Table' : 'Show Table';
     this.specificUser = invitationSenderUserId;
-    console.log(this.specificUser);
+    // console.log(this.specificUser);
   }
   toggletablefortracking() {
     this.showTable = !this.showTableTracking;
@@ -88,6 +63,6 @@ searchData(){
     this.invitedPerson.invitationSenderUserId = this.id;
     this.invitedperservice.specificUserData(this.id).subscribe({
       next:(ok)=>{ this.specificUser = ok;
-                console.log(ok,"ok")
+                // console.log(ok,"ok")
                }})}
 }

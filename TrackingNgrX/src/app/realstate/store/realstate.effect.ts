@@ -34,7 +34,6 @@ export class RealstateEffect {
     )
   );
 
-
   saveNewState$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(invokeSaveRealStateAPI),
@@ -76,14 +75,11 @@ export class RealstateEffect {
             );
             this.route.navigate(['/realstate']);
             return updateRealStateAPISucess({updateState : action.updateState });
-          
-
-          })
-        );
-      })
-    );
+ })
+ ); 
+  }) 
+              );
   });
-
 
   deleteStateAPI$ = createEffect(()=>{
     return this.actions$.pipe(
@@ -107,8 +103,6 @@ export class RealstateEffect {
       })
     );
   });
-
-
   //
   getInvitaionerState$ = createEffect(() =>
   this.actions$.pipe(

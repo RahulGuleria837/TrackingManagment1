@@ -8,6 +8,7 @@ import { Realstate } from '../store/realstate';
 import { getInvitationrealstate, invokeupdateRealStateAPI } from '../store/realstate.action';
 import { setApiStatus } from 'src/app/shared/store/app.action';
 import { selectAppState } from 'src/app/shared/store/app.selector';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit',
@@ -26,8 +27,8 @@ export class EditComponent implements OnInit  {
   }
 
  
-  constructor(private store: Store, private router: Router, private appstore: Store<Appstate>, private route: ActivatedRoute){}
-
+  constructor(private store: Store, private router: Router, private appstore: Store<Appstate>, private route: ActivatedRoute,private location:Location){}
+                                                                                                                        
 
 // ngOnChanges(changes: SimpleChanges): void {
 //   if (this.invitaionerPersonId != "") {
@@ -61,9 +62,12 @@ export class EditComponent implements OnInit  {
       }
     });
   }
-  
+  cancel(){
+    this.location.back()
+     }
+
   update() {
-    debugger
+  
     this.store.dispatch(
       invokeupdateRealStateAPI({ updateState: { ...this.stateForm } })
     );
@@ -76,6 +80,8 @@ export class EditComponent implements OnInit  {
           );
       }
     })
+    this.location.back();
   }
+
 
 }

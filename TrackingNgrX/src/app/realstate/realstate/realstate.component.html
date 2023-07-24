@@ -2,8 +2,8 @@
   <a style="margin-left: 1780px; color: white;" >{{logginUser.userName}}
  </a>
 </div>
-<div class="container mt-3">
-  <button [routerLink]="['/add']" (click)="save()" class="btn btn-primary" data-bs-toggle="modal"
+<div class="container mt-3"  data-bs-toggle="modal">
+  <button [routerLink]="['/add']" (click)="save()" class="btn btn-primary"
     data-bs-target="#myModal">
     Add
   </button>
@@ -22,13 +22,15 @@
     </tr>
   </thead>
   <tbody>
+    
     <tr *ngFor="let state of state$ | async ">
       <td>{{state.propertyName}}</td>
       <td>{{state.city}}</td>
       <td>{{state.area}}</td>
       <td>{{state.price}}</td>
      
-      <td> 
+      <td>
+         
         <button [disabled]="state.isDeleted==true" [routerLink]="['/edit', state.id ]" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#editModal">
           <i class="fa fa-edit"></i>

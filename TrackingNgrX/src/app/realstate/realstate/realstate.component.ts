@@ -35,26 +35,11 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
         dataChangeUser: {
           userName: ''
         },
-        userActions: 1, // 1 for 'Add', 2 for 'Update', 3 for 'Delete'
+        userActions: 0, // 1 for 'Add', 2 for 'Update', 3 for 'Delete'
         trackingDate: new Date()
-      },
-      {
-        dataChangeUser: {
-          userName: ''
-        },
-        userActions: 2,
-        trackingDate: new Date()
-      },
-      {
-        dataChangeUser: {
-          userName: ''
-        },
-        userActions: 3,
-        trackingDate: new Date()
-      }
-    ]
+      }]
   };
-
+  
   stateForm: Realstate = {
     id: 0,
     propertyName: '',
@@ -69,7 +54,7 @@ export class RealstateComponent implements OnInit,OnChanges,OnDestroy,OnInit {
  { 
   this.state$ = this.store.pipe(select(selectRealstate))
   this.state$.subscribe((data)=>{
-      console.log(data,"test");
+      // console.log(data,"test");
   })
   }
   
@@ -87,7 +72,8 @@ ngOnChanges(changes: SimpleChanges): void {
 
 
   ngOnInit(): void {
-    this.store.dispatch(invokeRealStateAPI());
+     this.store.dispatch(invokeRealStateAPI());
+
     //delete
     this.deleteModal = new window.bootstrap.Modal(
       document.getElementById('deleteModal'));
@@ -110,7 +96,6 @@ save(){
   }
 
   delete(){
-    debugger
     this.store.dispatch(
       invokeDeleteStateAPI({
         id: this.idToDelete,
@@ -130,6 +115,6 @@ save(){
     this.realstateService.showSpecificTrackingData(id, applicationUserId).subscribe(
       (data)=>{
         this.trackingUser = data;
-        console.log(data)        
+        console.log(data,"lastride")        
    })}
 }

@@ -148,8 +148,7 @@ namespace TrackingManagment.Repository
                 Action = u.Action,
                 Status = u.Status
             }
-           )
-            .ToList();
+           ).ToList();
         }
 
         //To get all data to register invited person
